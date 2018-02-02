@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "594793177053",
+    "firebase_url": "https://adoptablock-12140.firebaseio.com",
+    "project_id": "adoptablock-12140",
+    "storage_bucket": "adoptablock-12140.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594793177053:android:b1cfd4d59ad823b7",
+        "android_client_info": {
+          "package_name": "com.example.gordiartur.adoptablock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594793177053-73bduedog0u7ont8q5snqklsq6mmn8jp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gordiartur.adoptablock",
+            "certificate_hash": "45b5700eb55219f1172b539f9403651ee44344ef"
+          }
+        },
+        {
+          "client_id": "594793177053-lghkqkt9ik0jf8t3nkiipocug6lvm6ic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB4G9Dj9tnzkEI3mhD0rtxb7O47CNz2Io"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594793177053-lghkqkt9ik0jf8t3nkiipocug6lvm6ic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
