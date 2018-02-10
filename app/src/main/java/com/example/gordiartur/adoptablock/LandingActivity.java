@@ -1,5 +1,6 @@
 package com.example.gordiartur.adoptablock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -24,7 +25,8 @@ public class LandingActivity extends AppCompatActivity {
                     mTextMessage.setText(R.string.title_profile);
                     return true;
                 case R.id.navigation_map:
-                    mTextMessage.setText(R.string.title_map);
+                    Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                    startActivity(intent);
                     return true;
                 case R.id.navigation_more:
                     mTextMessage.setText(R.string.title_more);
