@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class LandingActivity extends AppCompatActivity {
-
-    private TextView mTextMessage;
+public class BlockActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -19,17 +17,20 @@ public class LandingActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_block:
-                    mTextMessage.setText(R.string.title_block);
+                    Intent intentBlock = new Intent(getApplicationContext(), BlockActivity.class);
+                    startActivity(intentBlock);
                     return true;
                 case R.id.navigation_profile:
-                    mTextMessage.setText(R.string.title_profile);
+                    Intent intentProfile = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intentProfile);
                     return true;
                 case R.id.navigation_map:
-                    Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                    startActivity(intent);
+                    Intent intentMaps = new Intent(getApplicationContext(), MapsActivity.class);
+                    startActivity(intentMaps);
                     return true;
                 case R.id.navigation_more:
-                    mTextMessage.setText(R.string.title_more);
+                    Intent intentMore = new Intent(getApplicationContext(), MoreActivity.class);
+                    startActivity(intentMore);
                     return true;
             }
             return false;
@@ -39,12 +40,12 @@ public class LandingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landing);
+        setContentView(R.layout.activity_block);
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setSelectedItemId(R.id.navigation_block);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
 }
-

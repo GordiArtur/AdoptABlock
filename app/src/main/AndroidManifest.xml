@@ -26,8 +26,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LandingActivity"
-            android:label="@string/title_activity_landing">
+            android:name=".BlockActivity"
+            android:label="@string/title_block">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +48,13 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_map" />
+        <activity
+            android:name=".MoreActivity"
+            android:label="@string/title_more" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_profile"></activity>
     </application>
 
 </manifest>
