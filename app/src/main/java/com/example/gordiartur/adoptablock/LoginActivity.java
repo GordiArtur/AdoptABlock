@@ -2,6 +2,7 @@ package com.example.gordiartur.adoptablock;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +31,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -48,7 +54,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    private FirebaseAuth mAuth;
+    private static final String TAG = "LoginActivity";
+
+    private FirebaseAuth mAuth = null;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -57,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -97,13 +106,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mGuestSignInButton = (Button) findViewById(R.id.guest_option_button);
+        @SuppressLint("CutPasteId") Button mGuestSignInButton = (Button) findViewById(R.id.guest_option_button);
         mGuestSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToLandingActivity();
             }
         });
+
+        Log.d(TAG, "Test: start");
 
         mAuth = FirebaseAuth.getInstance();
         onStart();
@@ -125,6 +136,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Check if user is signed in (non-null).
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
+            Log.d(TAG, "Test: currentuser not null");
             goToLandingActivity();
         }
     }
@@ -220,8 +232,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            signIn(email, password);
         }
     }
 
@@ -314,6 +325,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+    private void signIn(String email, String password) {
+        Log.d(TAG, "signIn:" + email);
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            mAuthTask = null;
+                            showProgress(false);
+                            goToLandingActivity();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            mAuthTask = null;
+                            showProgress(false);
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
+
+                            //Toast.makeText(LoginActivity.this, "Authentication failed.",
+                              //      Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -331,7 +369,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            /*
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -346,7 +384,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return pieces[1].equals(mPassword);
                 }
             }
-
+            */
             // TODO: register the new account here.
             return true;
         }
