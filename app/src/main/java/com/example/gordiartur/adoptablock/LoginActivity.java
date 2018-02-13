@@ -77,14 +77,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private View mGuestButtonView;
+    private View mRegisterButtonView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+        mGuestButtonView = findViewById(R.id.guest_option_button);
+        mRegisterButtonView = findViewById(R.id.register_button);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -106,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        @SuppressLint("CutPasteId") Button mGuestSignInButton = (Button) findViewById(R.id.guest_option_button);
+        @SuppressLint("CutPasteId") Button mGuestSignInButton = (Button) mGuestButtonView;
         mGuestSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,14 +121,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        @SuppressLint("CutPasteId") Button mRegisterButton = (Button) mRegisterButtonView;
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Test: register button");
+                goToRegisterActivity();
+            }
+        });
+
         Log.d(TAG, "Test: start");
 
         mAuth = FirebaseAuth.getInstance();
         onStart();
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        mGuestButtonView = findViewById(R.id.guest_option_button);
     }
 
     private void goToLandingActivity(){
@@ -130,13 +142,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         finish();
     }
 
+    private void goToRegisterActivity(){
+        Log.d(TAG, "Test: go to registeractivity");
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null).
+        // Check if user is already signed in (non-null).
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-            Log.d(TAG, "Test: currentuser not null");
             goToLandingActivity();
         }
     }
@@ -260,6 +278,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onAnimationEnd(Animator animation) {
                 mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 mGuestButtonView.setVisibility(show ? View.GONE : View.VISIBLE);
+                mRegisterButtonView.setVisibility(show ? View.GONE : View.VISIBLE);
             }
         });
 
@@ -345,6 +364,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             mPasswordView.setError(getString(R.string.error_incorrect_password));
                             mPasswordView.requestFocus();
 
+                            //Toast.makeText(LoginActivity.this, "Authentication failed.",
+                              //      Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void createUser(String email, String password) {
+        Log.d(TAG, "Sign Up");
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             //Toast.makeText(LoginActivity.this, "Authentication failed.",
                               //      Toast.LENGTH_SHORT).show();
                         }
