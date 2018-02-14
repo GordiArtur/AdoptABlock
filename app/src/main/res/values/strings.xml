@@ -23,4 +23,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- String related to activity_block -->
+    <string name="block_currently_adopted">Currently Adopted by: </string>
+    <string name="block_street_name">New West Rd. + New West St.</string>
+    <string name="block_owner_name">Owner Name</string>
+
 </resources>
