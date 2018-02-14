@@ -125,12 +125,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Test: register button");
                 goToRegisterActivity();
             }
         });
-
-        Log.d(TAG, "Test: start");
 
         mAuth = FirebaseAuth.getInstance();
         onStart();
@@ -143,7 +140,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void goToRegisterActivity(){
-        Log.d(TAG, "Test: go to registeractivity");
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
         finish();
@@ -380,7 +376,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -408,7 +403,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             /*
             try {
                 // Simulate network access.
