@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void goToLandingActivity(){
-        Intent intent = new Intent(this, LandingActivity.class);
+        Intent intent = new Intent(this, BlockActivity.class);
         startActivity(intent);
         finish();
     }

@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void goToLandingActivity(){
-        Intent intent = new Intent(this, LandingActivity.class);
+        Intent intent = new Intent(this, BlockActivity.class);
         startActivity(intent);
         finish();
     }
