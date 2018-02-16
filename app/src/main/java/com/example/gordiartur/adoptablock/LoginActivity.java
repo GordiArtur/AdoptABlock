@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
         populateAutoComplete();
 
         mLoginFormView = findViewById(R.id.login_form);
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mGuestButtonView = findViewById(R.id.guest_option_button);
         mRegisterButtonView = findViewById(R.id.register_button);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mGuestSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToLandingActivity();
+                goToBlockActivity();
             }
         });
 
@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         onStart();
     }
 
-    private void goToLandingActivity(){
+    private void goToBlockActivity(){
         Intent intent = new Intent(this, BlockActivity.class);
         startActivity(intent);
         finish();
@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Check if user is already signed in (non-null).
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-            goToLandingActivity();
+            goToBlockActivity();
         }
     }
 
@@ -352,7 +352,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             FirebaseUser user = mAuth.getCurrentUser();
                             mAuthTask = null;
                             showProgress(false);
-                            goToLandingActivity();
+                            goToBlockActivity();
                         } else {
                             // If sign in fails, display a message to the user.
                             mAuthTask = null;
@@ -429,7 +429,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                goToLandingActivity();
+                goToBlockActivity();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
