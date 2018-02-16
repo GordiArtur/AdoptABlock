@@ -13,17 +13,17 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Button mRegistrationSubmitButton = (Button) findViewById(R.id.registrationSubmitButton);
+        Button mRegistrationSubmitButton = findViewById(R.id.registrationSubmitButton);
         mRegistrationSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 verifyFields();
-                goToLandingActivity();
+                goToBlockActivity();
             }
         });
     }
 
-    private void goToLandingActivity(){
+    private void goToBlockActivity(){
         Intent intent = new Intent(this, BlockActivity.class);
         startActivity(intent);
         finish();
