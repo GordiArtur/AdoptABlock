@@ -5,74 +5,93 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class BlockActivity extends AppCompatActivity {
-    private static final String TAG = BlockActivity.class.getName();
-    private DatabaseReference mDatabase;
-    private String test_block_name_database;
 
     /**
-     * Test Google Firebase by setting and getting values between the app and the cloud database
-     *
-     * use test user: test2@gmail.com pass: hunter2
+     * Firebase Authentication instance
+     * used to access current user information
      */
-    private void testDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("test_field/would_nested_work?");
-        myRef.setValue("Artur was not here");
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        // Listens and updates the app in real time if a database value changes
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     /**
-     * Sets the street name based on the stored value in the database
+     * Firebase Database instance
+     * used to access all database
+     */
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+    private final String uid = firebaseUser.getUid(); // Firebase user id
+    private final String user_email = firebaseUser.getEmail(); // Firebase user email
+    private final String user_path = "users"; // Firebase path to "users" node
+    private final String block_name_path = "block_name"; // Firebase path to "block_name" node
+    private String block_name; // Used to display the block name to the user
+
+    /**
+     * Save the block name to the database
      * @TODO Convert to boolean
      */
-    private void setStreetName() {
+    private void saveBlockName() {
+        DatabaseReference userDatabase;
 
+        userDatabase = mDatabase.child(user_path).child(uid).child(block_name_path);
+        userDatabase.setValue(block_name);
     }
 
     /**
-     * Change current block name by the one inputted by the user
+     * Update block_name from Firebase database based on user ID
+     */
+    private void retrieveBlockName() {
+        DatabaseReference userDatabase;
+
+        userDatabase = mDatabase.child(user_path).child(uid).child(block_name_path);
+        block_name = userDatabase.getKey();
+    }
+
+    /**
+     * Update block_name_label with currently adopted block
+     */
+    private void updateBlockNameLabel() {
+        TextView block_name_label = findViewById(R.id.block_street_name_text);
+        if (!block_name.isEmpty()) {
+            block_name_label.setText(block_name);
+        }
+    }
+
+    /**
+     * Update username_label with user's email
+     * @TODO Update email to username once we have it
+     */
+    private void updateUserNameLabel() {
+        TextView user_email_label = findViewById(R.id.block_owner_name_text);
+        if (!user_email.isEmpty()) {
+            user_email_label.setText(user_email);
+        }
+    }
+
+    /**
+     * Change current block name by the one inputted by the user on button click
      * @param v View
      */
     public void block_adopt_block_clicked(View v) {
         EditText text_val = findViewById(R.id.block_block_input_text);
-        TextView block_name_text = findViewById(R.id.block_street_name_text);
-        String block_name = text_val.getText().toString();
+        block_name = text_val.getText().toString();
 
         // Update block name if input is not empty
         if (!block_name.isEmpty()) {
+            TextView block_name_text = findViewById(R.id.block_street_name_text);
             block_name_text.setText(block_name);
         }
+        saveBlockName();
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +103,10 @@ public class BlockActivity extends AppCompatActivity {
         navigation.setSelectedItemId(R.id.navigation_block);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // Test database functions
-        testDatabase();
+        // Update street_name variable with database variable if exists
+        retrieveBlockName();
+        updateBlockNameLabel();
+        updateUserNameLabel();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
