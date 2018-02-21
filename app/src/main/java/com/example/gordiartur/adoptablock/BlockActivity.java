@@ -35,9 +35,8 @@ public class BlockActivity extends AppCompatActivity {
      */
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-
-    private final String uid = firebaseUser.getUid(); // Firebase user id
-    private final String user_email = firebaseUser.getEmail(); // Firebase user email
+    private final String uid = instantiateUID();
+    private final String user_display_name = instantiateUserDisplayName();
     private final String user_path = "users"; // Firebase path to "users" node
     private final String block_name_path = "block_name"; // Firebase path to "block_name" node
     private String block_name; // Used to display the block name to the user
@@ -47,6 +46,10 @@ public class BlockActivity extends AppCompatActivity {
      * @TODO Convert to boolean
      */
     private void saveBlockName() {
+        if (firebaseUser == null) {
+            return;
+        }
+
         DatabaseReference userDatabase;
 
         userDatabase = mDatabase.child(user_path).child(uid).child(block_name_path);
@@ -56,7 +59,11 @@ public class BlockActivity extends AppCompatActivity {
     /**
      * Update block_name from Firebase database based on user ID
      */
-    private void retrieveBlockName2() {
+    private void retrieveBlockName() {
+        if (firebaseUser == null) {
+            return;
+        }
+
         DatabaseReference userDatabase;
         userDatabase = mDatabase.child(user_path).child(uid).child(block_name_path);
 
@@ -80,6 +87,10 @@ public class BlockActivity extends AppCompatActivity {
      * Update block_name_label with currently adopted block
      */
     private void updateBlockNameLabel() {
+        if (firebaseUser == null) {
+            return;
+        }
+
         TextView block_name_label = findViewById(R.id.block_street_name_text);
         if (block_name == null || !block_name.isEmpty()) {
             block_name_label.setText(block_name);
@@ -88,12 +99,15 @@ public class BlockActivity extends AppCompatActivity {
 
     /**
      * Update username_label with user's email
-     * @TODO Update email to username once we have it
      */
     private void updateUserNameLabel() {
+        if (firebaseUser == null) {
+            return;
+        }
+
         TextView user_email_label = findViewById(R.id.block_owner_name_text);
-        if (!user_email.isEmpty()) {
-            user_email_label.setText(user_email);
+        if (!user_display_name.isEmpty()) {
+            user_email_label.setText(user_display_name);
         }
     }
 
@@ -102,6 +116,10 @@ public class BlockActivity extends AppCompatActivity {
      * @param v View
      */
     public void block_adopt_block_clicked(View v) {
+        if (firebaseUser == null) {
+            return;
+        }
+
         EditText text_val = findViewById(R.id.block_block_input_text);
         block_name = text_val.getText().toString();
 
@@ -111,6 +129,31 @@ public class BlockActivity extends AppCompatActivity {
             block_name_text.setText(block_name);
         }
         saveBlockName();
+    }
+
+    /**
+     * Firebase user id
+     * @return user id as String
+     */
+    private String instantiateUID() {
+        if (firebaseUser != null) {
+            return firebaseUser.getUid();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Firebase user display name
+     * @return user display name as String
+     * @TODO Change to Username instead of Email once we have it
+     */
+    private String instantiateUserDisplayName() {
+        if (firebaseUser != null) {
+            return firebaseUser.getEmail();
+        } else {
+            return null;
+        }
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +166,7 @@ public class BlockActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Update street_name variable with database variable if exists
-        retrieveBlockName2();
+        retrieveBlockName();
         updateUserNameLabel();
     }
 
