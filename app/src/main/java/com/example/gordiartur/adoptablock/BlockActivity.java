@@ -92,7 +92,7 @@ public class BlockActivity extends AppCompatActivity {
         }
 
         TextView block_name_label = findViewById(R.id.block_street_name_text);
-        if (block_name == null || !block_name.isEmpty()) {
+        if (!block_name.isEmpty()) {
             block_name_label.setText(block_name);
         }
     }
