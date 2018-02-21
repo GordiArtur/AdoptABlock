@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -12,10 +13,15 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class BlockActivity extends AppCompatActivity {
+
+    private static final String TAG = BlockActivity.class.getName();
 
     /**
      * Firebase Authentication instance
@@ -50,11 +56,24 @@ public class BlockActivity extends AppCompatActivity {
     /**
      * Update block_name from Firebase database based on user ID
      */
-    private void retrieveBlockName() {
+    private void retrieveBlockName2() {
         DatabaseReference userDatabase;
-
         userDatabase = mDatabase.child(user_path).child(uid).child(block_name_path);
-        block_name = userDatabase.getKey();
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                block_name = dataSnapshot.getValue(String.class);
+                updateBlockNameLabel();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        userDatabase.addListenerForSingleValueEvent(postListener);
     }
 
     /**
@@ -62,7 +81,7 @@ public class BlockActivity extends AppCompatActivity {
      */
     private void updateBlockNameLabel() {
         TextView block_name_label = findViewById(R.id.block_street_name_text);
-        if (!block_name.isEmpty()) {
+        if (block_name == null || !block_name.isEmpty()) {
             block_name_label.setText(block_name);
         }
     }
@@ -104,8 +123,7 @@ public class BlockActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Update street_name variable with database variable if exists
-        retrieveBlockName();
-        updateBlockNameLabel();
+        retrieveBlockName2();
         updateUserNameLabel();
     }
 
