@@ -37,8 +37,8 @@ public class BlockActivity extends AppCompatActivity {
 
     private final String uid = instantiateUID();
     private final String user_display_name = instantiateUserDisplayName();
-    private final String user_path = "users"; // Firebase path to "users" node
-    private final String block_name_path = "block_name"; // Firebase path to "block_name" node
+    private final String user_path = getResources().getString(R.string.user_path); // Firebase path to "user_path" node
+    private final String block_name_path = getResources().getString(R.string.block_name_path); // Firebase path to "block_name" node
     private String block_name; // Used to display the block name to the user
 
     /**
