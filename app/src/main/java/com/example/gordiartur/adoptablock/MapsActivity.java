@@ -1,7 +1,11 @@
 package com.example.gordiartur.adoptablock;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,6 +52,12 @@ public class MapsActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setSelectedItemId(R.id.navigation_map);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -135,4 +145,31 @@ public class MapsActivity extends FragmentActivity
 
         Toast.makeText(this, "Area number " + polygon.getTag().toString(), Toast.LENGTH_SHORT).show();
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_block:
+                    Intent intentBlock = new Intent(getApplicationContext(), BlockActivity.class);
+                    startActivity(intentBlock);
+                    return true;
+                case R.id.navigation_profile:
+                    Intent intentProfile = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intentProfile);
+                    return true;
+                case R.id.navigation_map:
+                    Intent intentMaps = new Intent(getApplicationContext(), MapsActivity.class);
+                    startActivity(intentMaps);
+                    return true;
+                case R.id.navigation_more:
+                    Intent intentMore = new Intent(getApplicationContext(), MoreActivity.class);
+                    startActivity(intentMore);
+                    return true;
+            }
+            return false;
+        }
+    };
 }
