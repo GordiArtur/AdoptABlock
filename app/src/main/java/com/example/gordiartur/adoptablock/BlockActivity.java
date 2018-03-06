@@ -35,10 +35,11 @@ public class BlockActivity extends AppCompatActivity {
      */
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-    private final String uid = instantiateUID();
+    private final String uid = instantiateUID(); // User ID key used to access current user's info
     private final String user_display_name = instantiateUserDisplayName();
-    private final String user_path = getResources().getString(R.string.user_path); // Firebase path to "user_path" node
-    private final String block_name_path = getResources().getString(R.string.block_name_path); // Firebase path to "block_name" node
+    private String user_path; // Firebase path to "user" node
+    private String block_path; // Firebase path to "block" node
+    private String block_name_path; // Firebase path to "block_name" node
     private String block_name; // Used to display the block name to the user
 
     /**
@@ -52,7 +53,7 @@ public class BlockActivity extends AppCompatActivity {
 
         DatabaseReference userDatabase;
 
-        userDatabase = mDatabase.child(user_path).child(uid).child(block_name_path);
+        userDatabase = mDatabase.child(user_path).child(uid).child(block_path).child(block_name_path);
         userDatabase.setValue(block_name);
     }
 
@@ -65,7 +66,7 @@ public class BlockActivity extends AppCompatActivity {
         }
 
         DatabaseReference userDatabase;
-        userDatabase = mDatabase.child(user_path).child(uid).child(block_name_path);
+        userDatabase = mDatabase.child(user_path).child(uid).child(block_path).child(block_name_path);
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -92,7 +93,7 @@ public class BlockActivity extends AppCompatActivity {
         }
 
         TextView block_name_label = findViewById(R.id.block_street_name_text);
-        if (!block_name.isEmpty()) {
+        if (block_name == null || !block_name.isEmpty()) {
             block_name_label.setText(block_name);
         }
     }
@@ -166,8 +167,14 @@ public class BlockActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Update street_name variable with database variable if exists
+        user_path = getString(R.string.user_path);
+        block_path = getString(R.string.block_path);
+        block_name_path = getString(R.string.block_name_path);
+
         retrieveBlockName();
         updateUserNameLabel();
+
+        String test = getString(R.string.block_name_path);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
