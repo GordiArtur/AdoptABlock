@@ -8,14 +8,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PatternItem;
@@ -132,7 +130,7 @@ public class MapsActivity extends FragmentActivity
     }
 
     /**
-     * Styles the polygon, based on type.
+     * Styles the polygon.
      * @param polygon The polygon object that needs styling.
      */
     private void stylePolygon(Polygon polygon) {
@@ -159,7 +157,7 @@ public class MapsActivity extends FragmentActivity
         if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
             polygon.setFillColor(COLOR_TRANSPARENT_RED);
             blockInfo.setVisibility(View.VISIBLE);
-            blockInfo.setText("Block: " + polygon.getTag());
+            blockInfo.setText("Block: " + polygon.getTag() + "\nInfo:");
             blockInfo.bringToFront();
         } else {
             polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
