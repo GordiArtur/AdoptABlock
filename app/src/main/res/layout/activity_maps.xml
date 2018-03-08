@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context="com.example.gordiartur.adoptablock.MapsActivity">
 
+    <TextView
+        android:id="@+id/blockInfo"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
