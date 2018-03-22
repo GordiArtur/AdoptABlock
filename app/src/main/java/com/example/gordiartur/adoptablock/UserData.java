@@ -65,10 +65,19 @@ public class UserData extends Application {
     private String blockName;
     private String organizationName;
 
+    /**
+     * Create a static UserData object
+     */
     public UserData() {
         System.out.println("User Data created");
     }
 
+    /**
+     * Set all user information based on user's authentication
+     *
+     * NOTE: This needs to be called once, explicitly, as user authenticates after all static
+     *     objects have been initialized
+     */
     public void setUserData() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -99,54 +108,102 @@ public class UserData extends Application {
         return firebaseUser != null;
     }
 
+    /**
+     * Set currently authenticated user's username
+     * @param userName username
+     */
     public void setUserName(String userName) {
         this.userName = userName;
         userNameReference.setValue(userName);
     }
 
+    /**
+     * Set currently authenticated user's email
+     * @param email email
+     */
     public void setUserEmail(String email) {
         this.userEmail = email;
         emailReference.setValue(email);
     }
 
+    /**
+     * Set currently authenticated user's adopted block name
+     * @param blockName adopted block name
+     */
     public void setBlockName(String blockName) {
         this.blockName = blockName;
         blockNameReference.setValue(blockName);
     }
 
+    /**
+     * Set currently authenticated user's organization name
+     * @param organizationName organization name
+     */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
         organizationNameReference.setValue(organizationName);
     }
 
+    /**
+     * Return userNameReference used in retrieving data from firebase
+     * @return DatabaseReference userNameReference
+     */
     public DatabaseReference getUserNameReference() {
         return userNameReference;
     }
 
+    /**
+     * Return blockNameReference used in retrieving data from firebase
+     * @return DatabaseReference blockNameReference
+     */
     public DatabaseReference getBlockNameReference() {
         return blockNameReference;
     }
 
+    /**
+     * Return emailReference used in retrieving data from firebase
+     * @return DatabaseReference emailReference
+     */
     public DatabaseReference getEmailReference() {
         return emailReference;
     }
 
+    /**
+     * Return organizationNameReference used in retrieving data from firebase
+     * @return DatabaseSerference organizationReference
+     */
     public DatabaseReference getOrganizationNameReference() {
         return organizationNameReference;
     }
 
+    /**
+     * Return currenly authenticated user's username
+     * @return username
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * Return currenly authenticated user's email
+     * @return userEmail
+     */
     public String getUserEmail() {
         return userEmail;
     }
 
+    /**
+     * Return currenly authenticated user's adopted block name
+     * @return blockName
+     */
     public String getBlockName() {
         return blockName;
     }
 
+    /**
+     * Return currenly authenticated user's organization name
+     * @return organizationName
+     */
     public String getOrganizationName() {
         return organizationName;
     }

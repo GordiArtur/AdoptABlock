@@ -207,8 +207,16 @@ public class BlockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
 
+        /**
+         * Move this to sign in/up screen
+         * /////////////////////////////////////////////////
+         */
         userData = ((UserData)getApplicationContext());
         userData.setUserData();
+        /**
+         * up to here
+         * /////////////////////////////////////////////////
+         */
 
         retrieveValues();
         updateLabels();
