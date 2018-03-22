@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -145,7 +146,8 @@ public class MapsActivity extends FragmentActivity
      */
     @Override
     public void onPolygonClick(Polygon polygon) {
-        TextView blockInfo = findViewById(R.id.blockInfo);
+        LinearLayout blockInfo = findViewById(R.id.blockInfo);
+        TextView blockName = findViewById(R.id.blockName);
 
         for (Polygon p : polygonList) {
             if (!p.equals(polygon)) {
@@ -157,7 +159,7 @@ public class MapsActivity extends FragmentActivity
         if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
             polygon.setFillColor(COLOR_TRANSPARENT_RED);
             blockInfo.setVisibility(View.VISIBLE);
-            blockInfo.setText("Block: " + polygon.getTag() + "\nInfo:");
+            blockName.setText("Block: " + polygon.getTag() + "\nInfo:");
             blockInfo.bringToFront();
         } else {
             polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
@@ -166,7 +168,7 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onMapClick(LatLng point) {
-        TextView blockInfo = findViewById(R.id.blockInfo);
+        LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
         for (Polygon p : polygonList) {
                 p.setFillColor(COLOR_TRANSPARENT_GREEN);
