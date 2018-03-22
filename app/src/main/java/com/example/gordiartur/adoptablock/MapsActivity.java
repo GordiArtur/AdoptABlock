@@ -159,7 +159,7 @@ public class MapsActivity extends FragmentActivity
         if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
             polygon.setFillColor(COLOR_TRANSPARENT_RED);
             blockInfo.setVisibility(View.VISIBLE);
-            blockName.setText("Block: " + polygon.getTag() + "\nInfo:");
+            blockName.setText("Block: " + polygon.getTag());
             blockInfo.bringToFront();
         } else {
             polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
