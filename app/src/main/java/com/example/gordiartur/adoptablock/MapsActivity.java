@@ -1,5 +1,7 @@
 package com.example.gordiartur.adoptablock;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,6 +52,7 @@ public class MapsActivity extends FragmentActivity
             Arrays.asList(DASH, GAP);
 
     private ArrayList<Polygon> polygonList = new ArrayList<>();
+    private Polygon currentPolygon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,7 @@ public class MapsActivity extends FragmentActivity
 
                 JSONObject properties = first.getJSONObject("properties");
                 String block = properties.getString("BLOCK");
+                Double area = properties.getDouble("Shape_Area");
 
                 System.out.println(block);
 
@@ -113,7 +118,7 @@ public class MapsActivity extends FragmentActivity
                     }
 
                     Polygon polygon = googleMap.addPolygon(options.clickable(true));
-                    polygon.setTag(block);
+                    polygon.setTag(block + " " + area);
                     stylePolygon(polygon);
                     polygonList.add(polygon);
                 }
@@ -145,7 +150,29 @@ public class MapsActivity extends FragmentActivity
      */
     @Override
     public void onPolygonClick(Polygon polygon) {
-        TextView blockInfo = findViewById(R.id.blockInfo);
+        currentPolygon = polygon;
+        LinearLayout blockInfo = findViewById(R.id.blockInfo);
+
+        TextView blockName = findViewById(R.id.blockName);
+        TextView numAdoptees = findViewById(R.id.numAdoptees);
+        TextView spotsAvailable = findViewById(R.id.spotsAvailable);
+
+        String tag = (String) polygon.getTag();
+        String[] split = tag.split(" ");
+        String name = split[0];
+        Double area = Double.parseDouble(split[1]);
+        int totalAdoptees;
+
+
+        if (area < 50000) {
+            totalAdoptees = 2;
+        } else if (area < 100000) {
+            totalAdoptees = 4;
+        } else if (area < 200000) {
+            totalAdoptees = 6;
+        } else {
+            totalAdoptees = 8;
+        }
 
         for (Polygon p : polygonList) {
             if (!p.equals(polygon)) {
@@ -157,7 +184,9 @@ public class MapsActivity extends FragmentActivity
         if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
             polygon.setFillColor(COLOR_TRANSPARENT_RED);
             blockInfo.setVisibility(View.VISIBLE);
-            blockInfo.setText("Block: " + polygon.getTag() + "\nInfo:");
+            blockName.setText("Block: " + name);
+            numAdoptees.setText("Number of Adoptees: " + 0);  // SET TO GET NUMBER OF ADOPTEES FROM DB
+            spotsAvailable.setText("Spots Available: " + totalAdoptees); // SUBTRACT NUMBER OF ADOPTEES
             blockInfo.bringToFront();
         } else {
             polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
@@ -166,13 +195,43 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onMapClick(LatLng point) {
-        TextView blockInfo = findViewById(R.id.blockInfo);
+        LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
         for (Polygon p : polygonList) {
                 p.setFillColor(COLOR_TRANSPARENT_GREEN);
                 blockInfo.setVisibility(View.INVISIBLE);
 
         }
+    }
+
+    public void onAdoptClick(View view) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        String tag = (String) currentPolygon.getTag();
+        String[] split = tag.split(" ");
+        String blockName = split[0];
+
+        // CHECK IF USER ALREADY HAS A BLOCK
+
+        dialogBuilder.setTitle("Confirm");
+
+        dialogBuilder
+            .setMessage("Are you sure you want to adopt this block?")
+            .setCancelable(false)
+            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // INCREMENT NUMBER OF ADOPTEES FOR BLOCK AND ASSIGN BLOCK TO USER
+                    dialog.cancel();
+                }
+            })
+            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+
+        AlertDialog dialog = dialogBuilder.create();
+
+        dialog.show();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
