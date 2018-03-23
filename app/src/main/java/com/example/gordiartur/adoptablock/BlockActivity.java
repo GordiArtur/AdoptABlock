@@ -57,6 +57,10 @@ public class BlockActivity extends AppCompatActivity {
         EditText text_val = findViewById(R.id.block_block_input_text);
         userData.setBlockName(text_val.getText().toString());
         updateBlockNameLabel();
+
+        TextView block_name_label = findViewById(R.id.block_street_name_text);
+        userData.incrementBlockAdoptedBy();
+        block_name_label.setText(userData.getBlockName() + " " + userData.getBlockAdoptedBy());
     }
 
     /**
@@ -75,6 +79,7 @@ public class BlockActivity extends AppCompatActivity {
         retrieveUserName();
         retrieveEmail();
         retrieveOrganizationName();
+        //retrieveTotalAdoptedBlocks();  MOVED
     }
 
 //    private void retrieveBlockName2() {
@@ -116,6 +121,7 @@ public class BlockActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userData.setBlockName(dataSnapshot.getValue(String.class));
+                retrieveTotalAdoptedBlocks();
                 updateLabels();
             }
 
@@ -201,6 +207,26 @@ public class BlockActivity extends AppCompatActivity {
             }
         };
         userData.getOrganizationNameReference().addListenerForSingleValueEvent(postListener);
+    }
+
+    /**
+     * Retrieves totalBlocksAdopted from firebase to UserData
+     * Updates text labels
+     */
+    private void retrieveTotalAdoptedBlocks() {
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userData.setBlockAdoptedBy(dataSnapshot.getValue(int.class));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        userData.getBlockAdoptedByReference().addListenerForSingleValueEvent(postListener);
     }
 
     protected void onCreate(Bundle savedInstanceState) {

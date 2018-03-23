@@ -1,6 +1,7 @@
 package com.example.gordiartur.adoptablock;
 
 import android.app.Application;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,8 +15,13 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * A global user database class to handle all user data
  *
- * usage example: public int value = 3;
- * int getValue = ((UserData) getApplicationContext()).value;
+ *
+ * usage example:
+ *
+ *   private UserData userData;
+ *   userData = ((UserData) getApplicationContext());
+ *   String name = userData.getUserName();
+ *
  */
 public class UserData extends Application {
     /**
@@ -36,13 +42,18 @@ public class UserData extends Application {
     private String uid;
 
     /**
-     * Firebase database paths
+     * Firebase user database paths
      */
     public String userPath; // Firebase path to "user" node
-    private String blockPath; // Firebase path to "block" node
+    private String userBlockPath; // Firebase path to "user/uid/block" node
 
     /**
-     * Firebase database nodes
+     * Firebase block database paths
+     */
+    private String blocksPath; // Firebase path to "blocks" node
+
+    /**
+     * Firebase user database nodes
      */
     private String userNameNode; // Firebase path to "user_name" node
     private String emailNode; // Firebase path to "email" node
@@ -50,12 +61,22 @@ public class UserData extends Application {
     private String blockNameNode; // Firebase path to "block_name" node
 
     /**
-     * Firebase full path references
+     * Firebase block database nodes
+     */
+    private String blockAdoptedByNode; // Firebase path to "blockAdoptedBy" node
+
+    /**
+     * Firebase full user path references
      */
     private DatabaseReference userNameReference;
     private DatabaseReference emailReference;
     private DatabaseReference organizationNameReference;
     private DatabaseReference blockNameReference;
+
+    /**
+     * Firebase full block path references
+     */
+    private DatabaseReference blockAdoptedByReference;
 
     /**
      * User values
@@ -64,6 +85,11 @@ public class UserData extends Application {
     private String userEmail;
     private String blockName;
     private String organizationName;
+
+    /**
+     * Total block info
+     */
+    private int blockAdoptedBy;
 
     /**
      * Create a static UserData object
@@ -80,24 +106,28 @@ public class UserData extends Application {
      */
     public void setUserData() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (firebaseUser == null) {
-            return;
-        }
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        uid = firebaseUser.getUid();
-        userPath = "users";
-        blockPath = "block";
-        userNameNode = "user_name";
-        emailNode = "email";
-        organizationNode = "organization";
-        blockNameNode = "block_name";
 
-        userNameReference = mDatabase.child(userPath).child(uid).child(userNameNode);
-        emailReference = mDatabase.child(userPath).child(uid).child(emailNode);
-        blockNameReference = mDatabase.child(userPath).child(uid).child(blockPath).child(blockNameNode);
-        organizationNameReference = mDatabase.child(userPath).child(uid).child(organizationNode);
+        // Set blocks references
+        blocksPath = "blocks";
+        blockAdoptedByNode = "total_adopted_by";
+
+        // If user is authenticated
+        // Set user references
+        if (firebaseUser != null) {
+            uid = firebaseUser.getUid();
+            userPath = "users";
+            userBlockPath = "block";
+            userNameNode = "user_name";
+            emailNode = "email";
+            organizationNode = "organization";
+            blockNameNode = "block_name";
+
+            userNameReference = mDatabase.child(userPath).child(uid).child(userNameNode);
+            emailReference = mDatabase.child(userPath).child(uid).child(emailNode);
+            blockNameReference = mDatabase.child(userPath).child(uid).child(userBlockPath).child(blockNameNode);
+            organizationNameReference = mDatabase.child(userPath).child(uid).child(organizationNode);
+        }
     }
 
     /**
@@ -145,35 +175,29 @@ public class UserData extends Application {
     }
 
     /**
-     * Return userNameReference used in retrieving data from firebase
-     * @return DatabaseReference userNameReference
+     * Set current number of adopted blocks
+     * @param blockAdoptedBy total number of blocks adopted
      */
-    public DatabaseReference getUserNameReference() {
-        return userNameReference;
+    public void setBlockAdoptedBy(int blockAdoptedBy) {
+        blockAdoptedByReference = mDatabase.child(blocksPath).child(blockName).child(blockAdoptedByNode);
+        this.blockAdoptedBy = blockAdoptedBy;
+        blockAdoptedByReference.setValue(blockAdoptedBy);
     }
 
     /**
-     * Return blockNameReference used in retrieving data from firebase
-     * @return DatabaseReference blockNameReference
+     * Increase current number of adopted blocks by one
      */
-    public DatabaseReference getBlockNameReference() {
-        return blockNameReference;
+    public void incrementBlockAdoptedBy() {
+        blockAdoptedBy ++;
+        blockAdoptedByReference.setValue(blockAdoptedBy);
     }
 
     /**
-     * Return emailReference used in retrieving data from firebase
-     * @return DatabaseReference emailReference
+     * Decrease current number of adopted blocks by one
      */
-    public DatabaseReference getEmailReference() {
-        return emailReference;
-    }
-
-    /**
-     * Return organizationNameReference used in retrieving data from firebase
-     * @return DatabaseSerference organizationReference
-     */
-    public DatabaseReference getOrganizationNameReference() {
-        return organizationNameReference;
+    public void decrementBlockAdoptedBy() {
+        blockAdoptedBy --;
+        blockAdoptedByReference.setValue(blockAdoptedBy);
     }
 
     /**
@@ -201,10 +225,59 @@ public class UserData extends Application {
     }
 
     /**
-     * Return currenly authenticated user's organization name
+     * Return currently authenticated user's organization name
      * @return organizationName
      */
     public String getOrganizationName() {
         return organizationName;
+    }
+
+    /**
+     * Return total number of adopted blocks
+     * @return blockAdoptedBy
+     */
+    public int getBlockAdoptedBy() {
+        return blockAdoptedBy;
+    }
+
+    /**
+     * Return userNameReference used in retrieving data from firebase
+     * @return DatabaseReference userNameReference
+     */
+    public DatabaseReference getUserNameReference() {
+        return userNameReference;
+    }
+
+    /**
+     * Return blockNameReference used in retrieving data from firebase
+     * @return DatabaseReference blockNameReference
+     */
+    public DatabaseReference getBlockNameReference() {
+        return blockNameReference;
+    }
+
+    /**
+     * Return emailReference used in retrieving data from firebase
+     * @return DatabaseReference emailReference
+     */
+    public DatabaseReference getEmailReference() {
+        return emailReference;
+    }
+
+    /**
+     * Return organizationNameReference used in retrieving data from firebase
+     * @return DatabaseReference organizationReference
+     */
+    public DatabaseReference getOrganizationNameReference() {
+        return organizationNameReference;
+    }
+
+    /**
+     * Return blockAdoptedByReference used in retrieving data from firebase
+     * @return DatabaseReference blockAdoptedByReference
+     */
+    public DatabaseReference getBlockAdoptedByReference() {
+        blockAdoptedByReference = mDatabase.child(blocksPath).child(blockName).child(blockAdoptedByNode);
+        return blockAdoptedByReference;
     }
 }
