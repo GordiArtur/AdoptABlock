@@ -24,6 +24,11 @@
         completions."
     </string>
 
+    <!-- Strings to firebase paths -->
+    <string name ="user_path">users</string>
+    <string name ="block_path">block</string>
+    <string name ="block_name_path">block_name</string>
+
     <!-- String related to activity_block -->
     <string name="block_currently_adopted">Currently Adopted by: </string>
     <string name="block_street_name">New West Rd. + New West St.</string>
