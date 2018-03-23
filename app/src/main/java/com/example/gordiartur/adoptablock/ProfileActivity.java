@@ -47,5 +47,4 @@ public class ProfileActivity extends AppCompatActivity {
         navigation.setSelectedItemId(R.id.navigation_profile);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
-
 }

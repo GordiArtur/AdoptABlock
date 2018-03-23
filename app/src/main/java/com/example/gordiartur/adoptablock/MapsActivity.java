@@ -1,15 +1,22 @@
 package com.example.gordiartur.adoptablock;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PatternItem;
@@ -28,26 +35,35 @@ import java.util.Scanner;
 
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback,
-        GoogleMap.OnPolygonClickListener {
+        GoogleMap.OnPolygonClickListener,
+        GoogleMap.OnMapClickListener {
 
-    private static final int COLOR_GREEN_ARGB = 0xff388E3C;
-    private static final int COLOR_PURPLE_ARGB = 0xff81C784;
+    private static final int COLOR_TRANSPARENT_GREEN = 0x55388E3C;
+    private static final int COLOR_TRANSPARENT_RED = 0x55FF0000;
 
-    private static final int POLYGON_STROKE_WIDTH_PX = 8;
-    private static final int PATTERN_DASH_LENGTH_PX = 20;
-    private static final int PATTERN_GAP_LENGTH_PX = 20;
-    private static final PatternItem DOT = new Dot();
+    private static final int POLYGON_STROKE_WIDTH_PX = 3;
+    private static final int PATTERN_DASH_LENGTH_PX = 10;
+    private static final int PATTERN_GAP_LENGTH_PX = 10;
     private static final PatternItem DASH = new Dash(PATTERN_DASH_LENGTH_PX);
     private static final PatternItem GAP = new Gap(PATTERN_GAP_LENGTH_PX);
 
     // Create a stroke pattern of a dot followed by a gap, a dash, and another gap.
     private static final List<PatternItem> PATTERN_POLYGON_ALPHA =
-            Arrays.asList(DOT, GAP, DASH, GAP);
+            Arrays.asList(DASH, GAP);
+
+    private ArrayList<Polygon> polygonList = new ArrayList<>();
+    private Polygon currentPolygon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setSelectedItemId(R.id.navigation_map);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -77,6 +93,12 @@ public class MapsActivity extends FragmentActivity
                 JSONObject geometry = first.getJSONObject("geometry");
                 JSONArray coordinates = geometry.getJSONArray("coordinates");
 
+                JSONObject properties = first.getJSONObject("properties");
+                String block = properties.getString("BLOCK");
+                Double area = properties.getDouble("Shape_Area");
+
+                System.out.println(block);
+
                 for (int j = 0; j < coordinates.length(); j++) {
 
                     JSONArray second = coordinates.getJSONArray(j);
@@ -96,8 +118,9 @@ public class MapsActivity extends FragmentActivity
                     }
 
                     Polygon polygon = googleMap.addPolygon(options.clickable(true));
-                    polygon.setTag(j);
+                    polygon.setTag(block + " " + area);
                     stylePolygon(polygon);
+                    polygonList.add(polygon);
                 }
             }
 
@@ -108,17 +131,17 @@ public class MapsActivity extends FragmentActivity
         LatLng newWest = new LatLng(49.2057, -122.9110);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newWest, 13));
         googleMap.setOnPolygonClickListener(this);
+        googleMap.setOnMapClickListener(this);
     }
 
     /**
-     * Styles the polygon, based on type.
+     * Styles the polygon.
      * @param polygon The polygon object that needs styling.
      */
     private void stylePolygon(Polygon polygon) {
         polygon.setStrokePattern(PATTERN_POLYGON_ALPHA);
         polygon.setStrokeWidth(POLYGON_STROKE_WIDTH_PX);
-        polygon.setStrokeColor(COLOR_GREEN_ARGB);
-        polygon.setFillColor(COLOR_PURPLE_ARGB);
+        polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
     }
 
     /**
@@ -127,12 +150,114 @@ public class MapsActivity extends FragmentActivity
      */
     @Override
     public void onPolygonClick(Polygon polygon) {
-        // Flip the values of the red, green, and blue components of the polygon's color.
-        int color = polygon.getStrokeColor() ^ 0x00ffffff;
-        polygon.setStrokeColor(color);
-        color = polygon.getFillColor() ^ 0x00ffffff;
-        polygon.setFillColor(color);
+        currentPolygon = polygon;
+        LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
-        Toast.makeText(this, "Area number " + polygon.getTag().toString(), Toast.LENGTH_SHORT).show();
+        TextView blockName = findViewById(R.id.blockName);
+        TextView numAdoptees = findViewById(R.id.numAdoptees);
+        TextView spotsAvailable = findViewById(R.id.spotsAvailable);
+
+        String tag = (String) polygon.getTag();
+        String[] split = tag.split(" ");
+        String name = split[0];
+        Double area = Double.parseDouble(split[1]);
+        int totalAdoptees;
+
+
+        if (area < 50000) {
+            totalAdoptees = 2;
+        } else if (area < 100000) {
+            totalAdoptees = 4;
+        } else if (area < 200000) {
+            totalAdoptees = 6;
+        } else {
+            totalAdoptees = 8;
+        }
+
+        for (Polygon p : polygonList) {
+            if (!p.equals(polygon)) {
+                p.setFillColor(COLOR_TRANSPARENT_GREEN);
+                blockInfo.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
+            polygon.setFillColor(COLOR_TRANSPARENT_RED);
+            blockInfo.setVisibility(View.VISIBLE);
+            blockName.setText("Block: " + name);
+            numAdoptees.setText("Number of Adoptees: " + 0);  // SET TO GET NUMBER OF ADOPTEES FROM DB
+            spotsAvailable.setText("Spots Available: " + totalAdoptees); // SUBTRACT NUMBER OF ADOPTEES
+            blockInfo.bringToFront();
+        } else {
+            polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
+        }
     }
+
+    @Override
+    public void onMapClick(LatLng point) {
+        LinearLayout blockInfo = findViewById(R.id.blockInfo);
+
+        for (Polygon p : polygonList) {
+                p.setFillColor(COLOR_TRANSPARENT_GREEN);
+                blockInfo.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
+    public void onAdoptClick(View view) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        String tag = (String) currentPolygon.getTag();
+        String[] split = tag.split(" ");
+        String blockName = split[0];
+
+        // CHECK IF USER ALREADY HAS A BLOCK
+
+        dialogBuilder.setTitle("Confirm");
+
+        dialogBuilder
+            .setMessage("Are you sure you want to adopt this block?")
+            .setCancelable(false)
+            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // INCREMENT NUMBER OF ADOPTEES FOR BLOCK AND ASSIGN BLOCK TO USER
+                    dialog.cancel();
+                }
+            })
+            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+
+        AlertDialog dialog = dialogBuilder.create();
+
+        dialog.show();
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_block:
+                    Intent intentBlock = new Intent(getApplicationContext(), BlockActivity.class);
+                    startActivity(intentBlock);
+                    return true;
+                case R.id.navigation_profile:
+                    Intent intentProfile = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intentProfile);
+                    return true;
+                case R.id.navigation_map:
+                    Intent intentMaps = new Intent(getApplicationContext(), MapsActivity.class);
+                    startActivity(intentMaps);
+                    return true;
+                case R.id.navigation_more:
+                    Intent intentMore = new Intent(getApplicationContext(), MoreActivity.class);
+                    startActivity(intentMore);
+                    return true;
+            }
+            return false;
+        }
+    };
 }
