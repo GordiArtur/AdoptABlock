@@ -196,7 +196,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, go to block activity
-                            FirebaseUser user = mAuth.getCurrentUser();
                             showProgress(false);
                             goToBlockActivity();
                         } else {
