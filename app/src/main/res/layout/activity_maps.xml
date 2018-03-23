@@ -26,20 +26,19 @@
             android:id="@+id/numAdoptees"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Number of Adoptees: 7"
             android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/spotsAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Available Spots: 5"
             android:textSize="20sp"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adopt This Block!" />
+            android:text="Adopt This Block!"
+            android:onClick="onAdoptClick"/>
 
     </LinearLayout>
 
