@@ -226,20 +226,26 @@ public class BlockActivity extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         };
-        userData.getBlockAdoptedByReference().addListenerForSingleValueEvent(postListener);
+        try{
+            userData.getBlockAdoptedByReference().addListenerForSingleValueEvent(postListener);
+        }
+        catch(Exception e){
+            Log.d("GetTotalAdoptBlocks()", "Exception" + e);
+        }
+
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
 
-        /**
+        /*
          * Move this to sign in/up screen
          * /////////////////////////////////////////////////
          */
         userData = ((UserData)getApplicationContext());
         userData.setUserData();
-        /**
+        /*
          * up to here
          * /////////////////////////////////////////////////
          */
