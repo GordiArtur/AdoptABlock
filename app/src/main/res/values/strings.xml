@@ -24,6 +24,13 @@
         completions."
     </string>
 
+    <!-- Strings related to registration -->
+    <string name="email_confirmation">Confirm Email</string>
+    <string name="password_confirmation">Confirm Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="postal_code">Postal Code</string>
+
+
     <!-- Strings to firebase paths -->
     <string name ="user_path">users</string>
     <string name ="block_path">block</string>
