@@ -14,7 +14,7 @@
     <string name="accept">Accept</string>
 
     <!-- Strings related to welcome screen -->
-    <string name="message_collab">In collaboration with the city of</string>
+    <string name="new_west_thank_you">Special thanks to the city of</string>
     <string name="adopt_logo_desc">The logo for AdoptABlock</string>
     <string name="new_west_logo_desc">The logo for the city of New Westminster</string>
     <string name="garbage_bin_image_desc">Image of a garbage can</string>
@@ -26,8 +26,7 @@ city clean.</string>
 the street of their choice</string>
     <string name="screen_4_message">And little by little, together we will keep New Westminster looking as
 beautiful as it should!</string>
-    <string name="next">next</string>
-    <string name="skip">skip</string>
+    <string name="get_started">Get Started!</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -41,8 +40,7 @@ beautiful as it should!</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+        completions."</string>
 
     <!-- Strings related to registration -->
     <string name="email_confirmation">Confirm Email</string>

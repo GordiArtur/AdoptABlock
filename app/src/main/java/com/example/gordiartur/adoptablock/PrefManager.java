@@ -3,13 +3,12 @@ package com.example.gordiartur.adoptablock;
 import android.content.Context;
 import android.content.SharedPreferences;
 /**
- * Created by Alex on 29/03/2018.
+ * Created by Alex on 29/03/2018
  */
-
-public class PrefManager {
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
-    Context _context;
+class PrefManager {
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private Context _context;
 
     // shared pref mode
     int PRIVATE_MODE = 0;
@@ -23,6 +22,7 @@ public class PrefManager {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+        editor.apply();
     }
 
     public void setFirstTimeLaunch(boolean isFirstTime) {
