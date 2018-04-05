@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="newWestBlue">#5d87a1</color>
+    <color name="newWestGold">#c99b49</color>
+
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>
     <color name="dot_dark_screen2">#14a895</color>
