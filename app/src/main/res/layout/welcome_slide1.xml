@@ -17,12 +17,12 @@
         android:text="In collaboration with the city of"
         android:textAlignment="center"
         android:textColor="@color/newWestBlue"
-        android:textSize="sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
+        app:layout_constraintVertical_bias="0.806" />
 
     <ImageView
         android:id="@+id/adoptABlockLogo"
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.374"
+        app:layout_constraintVertical_bias="0.269"
         app:srcCompat="@drawable/adopt_a_block_logo" />
 
     <ImageView
@@ -54,7 +54,7 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955"
+        app:layout_constraintVertical_bias="0.891"
         app:srcCompat="@drawable/logo" />
 
 </android.support.constraint.ConstraintLayout>
