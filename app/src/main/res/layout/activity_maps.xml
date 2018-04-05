@@ -37,7 +37,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adopt This Block!"
+            android:text="@string/adopt_this_block"
             android:onClick="onAdoptClick"/>
 
     </LinearLayout>
