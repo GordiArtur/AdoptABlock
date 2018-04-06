@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AdoptABlock</string>
+    <string name="title_activity_landing">LandingActivity</string>
+    <string name="title_profile">Profil</string>
+    <string name="title_block">Votre Bloc</string>
+    <string name="title_map">Carte</string>
+    <string name="title_more">Plus</string>
+
+    <string name="dialog_test">Testing 1,2,3</string>
+    <string name="title_activity_login">Connexion</string>
+    <string name="sign_out">Se déconnecter</string>
+    <string name="adopt_this_block">Adoptez ce bloc!</string>
+    <string name="change_block">Changer le bloc</string>
+    <string name="accept">Accepter</string>
+
+    <!-- Strings related to welcome screen -->
+    <string name="new_west_thank_you">Merci à la ville de</string>
+    <string name="adopt_logo_desc">Le logo pour AdoptABlock</string>
+    <string name="new_west_logo_desc">Le logo de la ville de New Westminster</string>
+    <string name="garbage_bin_image_desc">Image d\'une poubelle</string>
+    <string name="city_image_desc">Image d\'une ville sous forme circulaire</string>
+    <string name="group_image_desc">Image d\'un groupe de personnes</string>
+    <string name="screen_2_message">AdoptABlock est une application simple avec un objectif simple; pour aider les communautés à garder leur ville propre.</string>
+    <string name="screen_3_message">Tout le monde affecté à un bloc se rencontrera au moins une fois par mois pour le nettoyer la rue de leur choix</string>
+    <string name="screen_4_message">Et peu à peu, ensemble, nous garderons New Westminster belle comme il se doit!</string>
+    <string name="get_started">Commencer!</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">Se connecter ou s\'inscrire</string>
+    <string name="action_sign_in_short">Se connecter</string>
+    <string name="action_register">Enregister</string>
+    <string name="action_guest">Continuer en tant qu\'invité</string>
+    <string name="error_invalid_email">Cette adresse email est invalide</string>
+    <string name="error_invalid_password">Ce mot de passe est invalide</string>
+    <string name="error_incorrect_password">Ce mot de passe est incorrect</string>
+    <string name="error_field_required">Ce champ est obligatoire</string>
+    <string name="permission_rationale">"Les autorisations de contacts sont nécessaires pour fournir le courrier électronique achèvements."</string>
+
+    <!-- Strings related to registration -->
+    <string name="email_confirmation">Confirmer l'email</string>
+    <string name="password_confirmation">Confirmer le mot de passe</string>
+    <string name="full_name">Nom complet</string>
+    <string name="postal_code">Code postal</string>
+
+
+    <!-- Strings to firebase paths -->
+    <string name="user_path">users</string>
+    <string name="block_path">block</string>
+    <string name="block_name_path">block_name</string>
+
+    <!-- String related to activity_block -->
+    <string name="block_currently_adopted">Actuellement adopté par: </string>
+    <string name="block_street_name">New West Rd. + New West St.</string>
+    <string name="block_owner_name">Nom du propriétaire</string>
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="boardwalk_img_desc">Image d\'une promenade</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Activer les recommandations sociales</string>
+    <string name="pref_description_social_recommendations">Recommandations pour les personnes à contacter en fonction de l\'historique de vos messages
+    </string>
+
+    <string name="pref_title_display_name">Nom d\'affichage</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Ajouter des amis aux messages</string>
+    <string-array name="pref_example_list_titles">
+        <item> Toujours </ item>
+        <item> Quand c'est possible </ item>
+        <item> Jamais </ item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item> 1 heure </ item>
+        <item> 3 heures </ item>
+        <item> 6 heures </ item>
+        <item> Jamais </ item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item> Entrée 1 </ item>
+        <item> Entrée 2 </ item>
+        <item> Entrée 3 </ item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">Paramètres de synchronisation du système</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">Nouvelles notifications de message</string>
+
+    <string name="pref_title_ringtone">Sonnerie</string>
+    <string name="pref_ringtone_silent">Silencieux</string>
+
+    <string name="pref_title_vibrate">Vibreur</string>
+
+</resources>
