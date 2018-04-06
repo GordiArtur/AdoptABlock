@@ -23,7 +23,7 @@
     <string name="group_image_desc">Image d\'un groupe de personnes</string>
     <string name="screen_2_message">AdoptABlock est une application simple avec un objectif simple; pour aider les communautés à garder leur ville propre.</string>
     <string name="screen_3_message">Tout le monde affecté à un bloc se rencontrera au moins une fois par mois pour le nettoyer la rue de leur choix</string>
-    <string name="screen_4_message">Et peu à peu, ensemble, nous garderons New Westminster belle comme il se doit!</string>
+    <string name="screen_4_message">Et peu à peu, ensemble, nous garderons New Westminster beau comme il se doit!</string>
     <string name="get_started">Commencer!</string>
 
     <!-- Strings related to login -->
@@ -33,7 +33,7 @@
     <string name="action_sign_in_short">Se connecter</string>
     <string name="action_register">Enregister</string>
     <string name="action_guest">Continuer en tant qu\'invité</string>
-    <string name="error_invalid_email">Cette adresse email est invalide</string>
+    <string name="error_invalid_email">Cette email est invalide</string>
     <string name="error_invalid_password">Ce mot de passe est invalide</string>
     <string name="error_incorrect_password">Ce mot de passe est incorrect</string>
     <string name="error_field_required">Ce champ est obligatoire</string>
@@ -52,7 +52,7 @@
     <string name="block_name_path">block_name</string>
 
     <!-- String related to activity_block -->
-    <string name="block_currently_adopted">Actuellement adopté par: </string>
+    <string name="block_currently_adopted">Adopté par: </string>
     <string name="block_street_name">New West Rd. + New West St.</string>
     <string name="block_owner_name">Nom du propriétaire</string>
     <string name="title_activity_settings">Paramètres</string>
@@ -73,7 +73,7 @@
     <string name="pref_title_add_friends_to_messages">Ajouter des amis aux messages</string>
     <string-array name="pref_example_list_titles">
         <item> Toujours </ item>
-        <item> Quand c'est possible </ item>
+        <item> Quand possible </ item>
         <item> Jamais </ item>
     </string-array>
     <string-array name="pref_example_list_values">
@@ -117,12 +117,12 @@
 
     <string-array name="multi_select_list_preference_default_value" />
 
-    <string name="pref_title_system_sync_settings">Paramètres de synchronisation du système</string>
+    <string name="pref_title_system_sync_settings">Paramètres de système synchronisation</string>
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">Nouvelles notifications de message</string>
+    <string name="pref_title_new_message_notifications">Nouvelles message notifications</string>
 
     <string name="pref_title_ringtone">Sonnerie</string>
     <string name="pref_ringtone_silent">Silencieux</string>
