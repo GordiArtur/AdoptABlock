@@ -10,6 +10,50 @@ import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private UserData userData;
+
+    /**
+     * Sets up the text views
+     */
+    private void setUp() {
+        userData = ((UserData) getApplicationContext());
+        updateUserNameLabel();
+        updateEmailLabel();
+        updateBlockNameLabel();
+    }
+
+    /**
+     * Update username_label with user's username
+     */
+    private void updateUserNameLabel() {
+        TextView user_name_label = findViewById(R.id.profileUserInfo1);
+        if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
+            user_name_label.setText(userData.getUserName());
+        } else {
+            user_name_label.setText(R.string.profile_sign_up_to_view);
+        }
+    }
+
+    /**
+     * Update username_label with user's email
+     */
+    private void updateEmailLabel() {
+        TextView user_email_label = findViewById(R.id.profileUserInfo2);
+        if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
+            user_email_label.setText(userData.getUserEmail());
+        }
+    }
+
+    /**
+     * Update block_name_label with currently adopted block
+     */
+    private void updateBlockNameLabel() {
+        TextView block_name_label = findViewById(R.id.profileUserInfo3);
+        if (userData.getBlockName() != null && !userData.getBlockName().isEmpty()) {
+            block_name_label.setText(userData.getBlockName());
+        }
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -41,6 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        setUp();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigation);
