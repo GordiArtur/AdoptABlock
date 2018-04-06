@@ -8,6 +8,25 @@
 
     <string name="dialog_test">Testing 1,2,3</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="adopt_this_block">Adopt This Block!</string>
+    <string name="change_block">Change block</string>
+    <string name="accept">Accept</string>
+
+    <!-- Strings related to welcome screen -->
+    <string name="new_west_thank_you">Special thanks to the city of</string>
+    <string name="adopt_logo_desc">The logo for AdoptABlock</string>
+    <string name="new_west_logo_desc">The logo for the city of New Westminster</string>
+    <string name="garbage_bin_image_desc">Image of a garbage can</string>
+    <string name="city_image_desc">Image of a city in a circular form</string>
+    <string name="group_image_desc">Image of a group of people</string>
+    <string name="screen_2_message">AdoptABlock is a simple app with a simple purpose; to help communities keep their
+city clean.</string>
+    <string name="screen_3_message">Everyone assigned to a block will meet up at least once a month to clean up
+the street of their choice</string>
+    <string name="screen_4_message">And little by little, together we will keep New Westminster looking as
+beautiful as it should!</string>
+    <string name="get_started">Get Started!</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -21,8 +40,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+        completions."</string>
 
     <!-- Strings related to registration -->
     <string name="email_confirmation">Confirm Email</string>
@@ -41,6 +59,7 @@
     <string name="block_street_name">New West Rd. + New West St.</string>
     <string name="block_owner_name">Owner Name</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="boardwalk_img_desc">Image of a boardwalk</string>
 
     <!-- Strings related to Settings -->
 
