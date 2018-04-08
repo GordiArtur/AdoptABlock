@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -11,10 +12,6 @@
         android:id="@+id/block_street_name_text"
         android:layout_width="221dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/block_name_path"
         android:textColor="@color/newWestDarkBlue"
         android:textSize="30sp"
@@ -25,7 +22,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.268" />
 
-
     <ImageView
         android:id="@+id/block_background_image"
         android:layout_width="305dp"
@@ -34,11 +30,21 @@
         android:contentDescription="@string/boardwalk_img_desc"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.443"
         app:srcCompat="@drawable/your_block" />
+
+    <ImageView
+        android:id="@+id/layout_line"
+        android:layout_width="380dp"
+        android:layout_height="2dp"
+        android:contentDescription="Gold line"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.092"
+        app:srcCompat="@drawable/gold_line" />
 
     <TextView
         android:id="@+id/block_currently_adopted_text"
@@ -51,9 +57,10 @@
         android:text="Block manager: "
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="@color/newWestDarkBlue"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/block_background_image"
         app:layout_constraintVertical_bias="0.072" />
@@ -69,6 +76,7 @@
         android:text="@string/block_owner_name"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="@color/newWestDarkBlue"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.392"
@@ -87,27 +95,41 @@
         android:text="Members: "
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="@color/newWestDarkBlue"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.029"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/block_background_image"
         app:layout_constraintVertical_bias="0.265" />
 
     <Spinner
         android:id="@+id/block_members_list"
-        android:layout_width="241dp"
+        android:layout_width="225dp"
         android:layout_height="26dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textColor="@color/newWestDarkBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.58" />
+
+    <ImageView
+        android:id="@+id/layout_line_2"
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:contentDescription="Blue line"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.694"
+        app:srcCompat="@drawable/blue_line" />
 
     <TextView
         android:id="@+id/block_next_meeting_label"
@@ -120,6 +142,7 @@
         android:text="Next meeting: "
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="@color/newWestDarkBlue"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.033"
@@ -138,6 +161,7 @@
         android:text="10:00AM - 11:00AM"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="@color/newWestDarkBlue"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.129"
@@ -156,12 +180,25 @@
         android:text="Sunday October 3/ 2018"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textColor="@color/newWestDarkBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.895"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/block_next_meeting_time"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/layout_line_3"
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:contentDescription="Blue line"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.875"
+        app:srcCompat="@drawable/blue_line" />
 
     <EditText
         android:id="@+id/block_block_input_text"
@@ -194,20 +231,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/navigation" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="364dp"
-        android:layout_height="4dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.505"
-        app:srcCompat="@drawable/gold_line" />
 
 </android.support.constraint.ConstraintLayout>

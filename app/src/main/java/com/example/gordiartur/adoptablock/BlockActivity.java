@@ -263,8 +263,8 @@ public class BlockActivity extends AppCompatActivity {
                 R.array.block_members_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setClickable(false);
+        spinner.setPrompt("Member List");
         spinner.setAdapter(adapter);
-
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigation);
