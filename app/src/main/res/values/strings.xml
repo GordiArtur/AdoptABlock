@@ -1,4 +1,10 @@
 <resources>
+    <!-- Untranslated Strings -->
+    <string name="action_return">Return</string>
+
+
+    <!--  -->
+
     <string name="app_name">AdoptABlock</string>
     <string name="title_activity_landing">LandingActivity</string>
     <string name="title_profile">Profile</string>
