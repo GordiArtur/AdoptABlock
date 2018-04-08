@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -232,10 +234,13 @@ public class BlockActivity extends AppCompatActivity {
         catch(Exception e){
             Log.d("GetTotalAdoptBlocks()", "Exception" + e);
         }
-
     }
 
     protected void onCreate(Bundle savedInstanceState) {
+        String[] queryCols = new String[]{"_id", "sampletext"};
+        String[] adapterCols = new String[]{"sampletext"};
+        int[] adapterRowViews = new int[]{android.R.id.text1};
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
 
@@ -252,6 +257,14 @@ public class BlockActivity extends AppCompatActivity {
 
         retrieveValues();
         updateLabels();
+
+        Spinner spinner = findViewById(R.id.block_members_list);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.block_members_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setClickable(false);
+        spinner.setAdapter(adapter);
+
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigation);

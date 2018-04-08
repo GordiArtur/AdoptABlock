@@ -2,6 +2,17 @@
     <!-- Untranslated Strings -->
     <string name="action_return">Return</string>
 
+    <string-array name="block_members_array">
+        <item>Jon Snow</item>
+        <item>Ygritte</item>
+        <item>Tyrion Lannister</item>
+        <item>The Hound</item>
+        <item>Arya Stark</item>
+        <item>Brienne of Tarth</item>
+        <item>Theon Greyjoy</item>
+    </string-array>
+
+
 
     <!--  -->
 
