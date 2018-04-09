@@ -7,9 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,25 +42,6 @@ public class BlockActivity extends AppCompatActivity {
         if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
             user_email_label.setText(userData.getUserName());
         }
-    }
-
-    /**
-     * Change current block name by the one inputted by the user on button click
-     * Save the new block name to Firebase
-     * @param v View
-     */
-    public void block_adopt_block_clicked(View v) {
-        if (!userData.isAuthenticated()) {
-            return;
-        }
-
-        EditText text_val = findViewById(R.id.block_block_input_text);
-        userData.setBlockName(text_val.getText().toString());
-        updateBlockNameLabel();
-
-        TextView block_name_label = findViewById(R.id.block_street_name_text);
-        userData.incrementBlockAdoptedBy();
-        block_name_label.setText(userData.getBlockName() + " " + userData.getBlockAdoptedBy());
     }
 
     /**

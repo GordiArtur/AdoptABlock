@@ -1,6 +1,11 @@
 <resources>
     <!-- Untranslated Strings -->
     <string name="action_return">Return</string>
+    <string name="block_manager_label">Block manager: </string>
+    <string name="members_label">Members: </string>
+    <string name="meeting_label">Next meeting: </string>
+    <string name="img_desc_blue_line">Blue line</string>
+    <string name="img_desc_gold_line">Gold line</string>
 
     <string-array name="block_members_array">
         <item>Jon Snow</item>
