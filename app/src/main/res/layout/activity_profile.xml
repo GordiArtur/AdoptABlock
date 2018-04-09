@@ -8,75 +8,32 @@
     tools:context="com.example.gordiartur.adoptablock.ProfileActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/profileTitle"
+        android:layout_width="294dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navigation" />
-
-    <TextView
-        android:id="@+id/profileUserInfo3"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:text=""
-        android:textSize="25sp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/profile_header"
+        android:textAlignment="center"
+        android:textColor="@color/newWestDarkBlue"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileField3"
-        app:layout_constraintTop_toBottomOf="@+id/profileUserInfo2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.012" />
 
-    <TextView
-        android:id="@+id/profileUserInfo2"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:text=""
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileUserInfo3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileField2"
-        app:layout_constraintTop_toBottomOf="@+id/profileUserInfo1" />
-
-    <TextView
-        android:id="@+id/profileUserInfo1"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:text=""
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileUserInfo2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileField1"
-        app:layout_constraintTop_toBottomOf="@+id/profileTitle" />
-
-    <TextView
-        android:id="@+id/profileField3"
-        android:layout_width="136dp"
-        android:layout_height="41dp"
-        android:text="@string/profile_field3"
-        android:textSize="25sp"
+    <ImageView
+        android:id="@+id/layout_line3"
+        android:layout_width="380dp"
+        android:layout_height="2dp"
+        android:contentDescription="Gold line"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintEnd_toStartOf="@+id/profileUserInfo3"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileField2" />
-
-    <TextView
-        android:id="@+id/profileField2"
-        android:layout_width="136dp"
-        android:layout_height="41dp"
-        android:text="@string/profile_field2"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileField3"
-        app:layout_constraintEnd_toStartOf="@+id/profileUserInfo2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileField1" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.092"
+        app:srcCompat="@drawable/gold_line" />
 
     <TextView
         android:id="@+id/profileField1"
@@ -91,17 +48,86 @@
         app:layout_constraintTop_toBottomOf="@+id/profileTitle" />
 
     <TextView
-        android:id="@+id/profileTitle"
-        android:layout_width="294dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="11dp"
-        android:text="@string/profile_header"
-        android:textAlignment="center"
+        android:id="@+id/profileUserInfo1"
+        android:layout_width="183dp"
+        android:layout_height="40dp"
+        android:text=""
         android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/profileUserInfo2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/profileField1"
+        app:layout_constraintTop_toBottomOf="@+id/profileTitle" />
 
+    <TextView
+        android:id="@+id/profileField2"
+        android:layout_width="136dp"
+        android:layout_height="41dp"
+        android:text="@string/profile_field2"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/profileField3"
+        app:layout_constraintEnd_toStartOf="@+id/profileUserInfo2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileField1" />
+
+    <TextView
+        android:id="@+id/profileUserInfo2"
+        android:layout_width="183dp"
+        android:layout_height="40dp"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/profileUserInfo3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/profileField2"
+        app:layout_constraintTop_toBottomOf="@+id/profileUserInfo1" />
+
+    <TextView
+        android:id="@+id/profileField3"
+        android:layout_width="136dp"
+        android:layout_height="41dp"
+        android:text="@string/profile_field3"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toStartOf="@+id/profileUserInfo3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileField2" />
+
+    <TextView
+        android:id="@+id/profileUserInfo3"
+        android:layout_width="183dp"
+        android:layout_height="40dp"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/profileField3"
+        app:layout_constraintTop_toBottomOf="@+id/profileUserInfo2" />
+
+    <ImageView
+        android:id="@+id/layout_line_"
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:contentDescription="Blue line"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.875"
+        app:srcCompat="@drawable/blue_line" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation" />
 
 </android.support.constraint.ConstraintLayout>
