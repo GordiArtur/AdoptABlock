@@ -28,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         mEmailView = findViewById(R.id.registrationEmail);
         mPasswordView = findViewById(R.id.registrationPassword);
         Button mRegistrationSubmitButton = findViewById(R.id.registrationSubmitButton);
+        Button mReturnButton = findViewById(R.id.registrationReturnButton);
         mRegistrationSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +41,12 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     attemptRegistration(mEmailView.getText().toString(), mPasswordView.getText().toString());
                 }
+            }
+        });
+        mReturnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToLoginActivity();
             }
         });
 
@@ -64,6 +71,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void goToBlockActivity(){
         Intent intent = new Intent(this, BlockActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void goToLoginActivity(){
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

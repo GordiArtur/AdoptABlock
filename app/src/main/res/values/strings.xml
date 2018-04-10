@@ -1,4 +1,23 @@
 <resources>
+    <!-- Untranslated Strings -->
+    <string name="action_return">Return</string>
+    <string name="block_manager_label">Block manager: </string>
+    <string name="members_label">Members: </string>
+    <string name="meeting_label">Next meeting: </string>
+    <string name="img_desc_blue_line">Blue line</string>
+    <string name="img_desc_gold_line">Gold line</string>
+
+    <string-array name="block_members_array">
+        <item>Jon Snow</item>
+        <item>Ygritte</item>
+        <item>Tyrion Lannister</item>
+        <item>The Hound</item>
+        <item>Arya Stark</item>
+        <item>Brienne of Tarth</item>
+        <item>Theon Greyjoy</item>
+    </string-array>
+
+    <!-- General Use Strings  -->
     <string name="app_name">AdoptABlock</string>
     <string name="title_activity_landing">LandingActivity</string>
     <string name="title_profile">Profile</string>

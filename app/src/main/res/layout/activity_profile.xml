@@ -5,104 +5,190 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/queens_park_new_west"
     tools:context="com.example.gordiartur.adoptablock.ProfileActivity"
     tools:layout_editor_absoluteY="25dp">
 
+    <ScrollView
+        android:layout_width="350dp"
+        android:layout_height="390dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.049">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparentWhite"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/profileTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/profile_header"
+                android:textAlignment="center"
+                android:textColor="@color/newWestDarkBlue"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/layout_line3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:contentDescription="@string/img_desc_gold_line"
+                app:srcCompat="@drawable/gold_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/profile_username_label"
+                    android:layout_width="136dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/profile_field1"
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp"
+                    app:layout_constraintVertical_bias="0.382" />
+
+                <TextView
+                    android:id="@+id/profile_username_field"
+                    android:layout_width="180dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/profile_email_label"
+                    android:layout_width="136dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/profile_field2"
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/profile_email_field"
+                    android:layout_width="180dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/profile_"
+                    android:layout_width="136dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Something:"
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/profileUserInfo"
+                    android:layout_width="180dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/profile_block_label"
+                    android:layout_width="136dp"
+                    android:layout_height="41dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/profile_field3"
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/profile_block_field"
+                    android:layout_width="180dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/newWestDarkBlue"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/layout_line_"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="25dp"
+                android:contentDescription="@string/img_desc_blue_line"
+                app:srcCompat="@drawable/blue_line" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
-        android:layout_width="384dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation" />
-
-    <TextView
-        android:id="@+id/profileUserInfo3"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:text=""
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileField3"
-        app:layout_constraintTop_toBottomOf="@+id/profileUserInfo2" />
-
-    <TextView
-        android:id="@+id/profileUserInfo2"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:text=""
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileUserInfo3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileField2"
-        app:layout_constraintTop_toBottomOf="@+id/profileUserInfo1" />
-
-    <TextView
-        android:id="@+id/profileUserInfo1"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:text=""
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileUserInfo2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profileField1"
-        app:layout_constraintTop_toBottomOf="@+id/profileTitle" />
-
-    <TextView
-        android:id="@+id/profileField3"
-        android:layout_width="136dp"
-        android:layout_height="41dp"
-        android:text="@string/profile_field3"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintEnd_toStartOf="@+id/profileUserInfo3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileField2" />
-
-    <TextView
-        android:id="@+id/profileField2"
-        android:layout_width="136dp"
-        android:layout_height="41dp"
-        android:text="@string/profile_field2"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileField3"
-        app:layout_constraintEnd_toStartOf="@+id/profileUserInfo2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileField1" />
-
-    <TextView
-        android:id="@+id/profileField1"
-        android:layout_width="136dp"
-        android:layout_height="41dp"
-        android:text="@string/profile_field1"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/profileField2"
-        app:layout_constraintEnd_toStartOf="@+id/profileUserInfo1"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileTitle" />
-
-    <TextView
-        android:id="@+id/profileTitle"
-        android:layout_width="294dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="11dp"
-        android:text="@string/profile_header"
-        android:textAlignment="center"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 </android.support.constraint.ConstraintLayout>

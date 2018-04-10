@@ -40,7 +40,7 @@
     <string name="permission_rationale">"Les autorisations de contacts sont nécessaires pour fournir le courrier électronique achèvements."</string>
 
     <!-- Strings related to registration -->
-    <string name="email_confirmation">Confirmer l'email</string>
+    <string name="email_confirmation">Confirmer l\'email</string>
     <string name="password_confirmation">Confirmer le mot de passe</string>
     <string name="full_name">Nom complet</string>
     <string name="postal_code">Code postal</string>
@@ -72,9 +72,9 @@
 
     <string name="pref_title_add_friends_to_messages">Ajouter des amis aux messages</string>
     <string-array name="pref_example_list_titles">
-        <item> Toujours </ item>
-        <item> Quand possible </ item>
-        <item> Jamais </ item>
+        <item> Toujours </item>
+        <item> Quand possible </item>
+        <item> Jamais </item>
     </string-array>
     <string-array name="pref_example_list_values">
         <item>1</item>
@@ -89,10 +89,10 @@
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>
-        <item> 1 heure </ item>
-        <item> 3 heures </ item>
-        <item> 6 heures </ item>
-        <item> Jamais </ item>
+        <item> 1 heure </item>
+        <item> 3 heures </item>
+        <item> 6 heures </item>
+        <item> Jamais </item>
     </string-array>
     <string-array name="pref_sync_frequency_values">
         <item>15</item>
@@ -104,9 +104,9 @@
     </string-array>
 
     <string-array name="list_preference_entries">
-        <item> Entrée 1 </ item>
-        <item> Entrée 2 </ item>
-        <item> Entrée 3 </ item>
+        <item> Entrée 1 </item>
+        <item> Entrée 2 </item>
+        <item> Entrée 3 </item>
     </string-array>
 
     <string-array name="list_preference_entry_values">

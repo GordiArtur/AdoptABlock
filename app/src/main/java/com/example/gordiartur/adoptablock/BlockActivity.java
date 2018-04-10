@@ -7,8 +7,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -42,25 +42,6 @@ public class BlockActivity extends AppCompatActivity {
         if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
             user_email_label.setText(userData.getUserName());
         }
-    }
-
-    /**
-     * Change current block name by the one inputted by the user on button click
-     * Save the new block name to Firebase
-     * @param v View
-     */
-    public void block_adopt_block_clicked(View v) {
-        if (!userData.isAuthenticated()) {
-            return;
-        }
-
-        EditText text_val = findViewById(R.id.block_block_input_text);
-        userData.setBlockName(text_val.getText().toString());
-        updateBlockNameLabel();
-
-        TextView block_name_label = findViewById(R.id.block_street_name_text);
-        userData.incrementBlockAdoptedBy();
-        block_name_label.setText(userData.getBlockName() + " " + userData.getBlockAdoptedBy());
     }
 
     /**
@@ -232,10 +213,13 @@ public class BlockActivity extends AppCompatActivity {
         catch(Exception e){
             Log.d("GetTotalAdoptBlocks()", "Exception" + e);
         }
-
     }
 
     protected void onCreate(Bundle savedInstanceState) {
+        String[] queryCols = new String[]{"_id", "sampletext"};
+        String[] adapterCols = new String[]{"sampletext"};
+        int[] adapterRowViews = new int[]{android.R.id.text1};
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
 
@@ -252,6 +236,14 @@ public class BlockActivity extends AppCompatActivity {
 
         retrieveValues();
         updateLabels();
+
+        Spinner spinner = findViewById(R.id.block_members_list);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.block_members_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setClickable(false);
+        spinner.setPrompt("Member List");
+        spinner.setAdapter(adapter);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigation);

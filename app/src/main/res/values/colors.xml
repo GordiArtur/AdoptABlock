@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#5d87a1</color>
+    <color name="colorPrimaryDark">#002b54</color>
+    <color name="colorAccent">#c99b49</color>
     <color name="white">#FFFFFF</color>
+    <color name="transparentWhite">#D9FFFFFF</color>
+    <color name="black">#000000</color>
 
+    <!-- New Westminster city colors -->
     <color name="newWestBlue">#5d87a1</color>
-    <color name="newWestBlueLight">#56a4d4</color>
+    <color name="newWestDarkBlue">#002b54</color>
     <color name="newWestGold">#c99b49</color>
+
+    <!-- City accent colors -->
+    <color name="newWestBlueLight">#56a4d4</color>
     <color name="newWestGoldLight">#ddba7a</color>
 
-    <!-- dots inactive colors -->
-    <color name="dot_dark_screen">#c99b49</color>
-
-    <!-- dots active colors -->
-    <color name="dot_light_screen">#ddba7a</color>
-
+    <!-- Welcome screen movement dots -->
     <array name="array_dot_active">
-        <item>@color/dot_light_screen</item>
-        <item>@color/dot_light_screen</item>
-        <item>@color/dot_light_screen</item>
-        <item>@color/dot_light_screen</item>
+        <item>@color/newWestGoldLight</item>
+        <item>@color/newWestGoldLight</item>
+        <item>@color/newWestGoldLight</item>
+        <item>@color/newWestGoldLight</item>
     </array>
 
     <array name="array_dot_inactive">
-        <item>@color/dot_dark_screen</item>
-        <item>@color/dot_dark_screen</item>
-        <item>@color/dot_dark_screen</item>
-        <item>@color/dot_dark_screen</item>
+        <item>@color/newWestGold</item>
+        <item>@color/newWestGold</item>
+        <item>@color/newWestGold</item>
+        <item>@color/newWestGold</item>
     </array>
 
 </resources>
