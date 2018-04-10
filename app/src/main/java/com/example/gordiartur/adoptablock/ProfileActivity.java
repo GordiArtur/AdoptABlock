@@ -26,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
      * Update username_label with user's username
      */
     private void updateUserNameLabel() {
-        TextView user_name_label = findViewById(R.id.profileUserInfo1);
+        TextView user_name_label = findViewById(R.id.profile_username_field);
         if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
             user_name_label.setText(userData.getUserName());
         } else {
@@ -38,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
      * Update username_label with user's email
      */
     private void updateEmailLabel() {
-        TextView user_email_label = findViewById(R.id.profileUserInfo2);
+        TextView user_email_label = findViewById(R.id.profile_email_field);
         if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
             user_email_label.setText(userData.getUserEmail());
         }
@@ -48,7 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
      * Update block_name_label with currently adopted block
      */
     private void updateBlockNameLabel() {
-        TextView block_name_label = findViewById(R.id.profileUserInfo3);
+        TextView block_name_label = findViewById(R.id.profile_block_field);
         if (userData.getBlockName() != null && !userData.getBlockName().isEmpty()) {
             block_name_label.setText(userData.getBlockName());
         }
