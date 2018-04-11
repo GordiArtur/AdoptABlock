@@ -26,8 +26,8 @@ class PrefManager {
     }
 
     public void setFirstTimeLaunch(boolean isFirstTime) {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
-        editor.commit();
+        //editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
+        //editor.commit();
     }
 
     public boolean isFirstTimeLaunch() {

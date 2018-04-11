@@ -24,7 +24,7 @@
     <string name="title_block">Your Block</string>
     <string name="title_map">Map</string>
     <string name="title_more">More</string>
-    <string name="title_about">About</string>
+    <string name="title_about_page">About</string>
 
     <string name="dialog_test">Testing 1,2,3</string>
     <string name="title_activity_login">Sign in</string>
