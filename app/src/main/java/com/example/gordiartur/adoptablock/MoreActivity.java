@@ -60,8 +60,8 @@ public class MoreActivity extends AppCompatActivity {
         });
     }
 
-    public void goToSettingsActivity(View view) {
-        Intent intent = new Intent(this, SettingsActivity.class);
+    public void goToAboutActivity(View view) {
+        Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 

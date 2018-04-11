@@ -6,6 +6,7 @@
     <string name="title_block">Votre Bloc</string>
     <string name="title_map">Carte</string>
     <string name="title_more">Plus</string>
+    <string name="title_about">A Propos</string>
 
     <string name="dialog_test">Testing 1,2,3</string>
     <string name="title_activity_login">Connexion</string>
