@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
      */
     private void updateEmailLabel() {
         TextView user_email_label = findViewById(R.id.profile_email_field);
-        if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
+        if (userData.isAuthenticated()) {
             user_email_label.setText(userData.getUserEmail());
         }
     }

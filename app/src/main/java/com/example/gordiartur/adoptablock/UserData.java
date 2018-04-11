@@ -12,6 +12,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
 /**
  * A global user database class to handle all user data
  *
@@ -91,6 +96,9 @@ public class UserData extends Application {
      */
     private int blockAdoptedBy;
 
+    private HashSet<String> blockList;
+    private HashMap<String, Integer> adoptedByList;
+
     /**
      * Create a static UserData object
      */
@@ -111,6 +119,10 @@ public class UserData extends Application {
         // Set blocks references
         blocksPath = "blocks";
         blockAdoptedByNode = "total_adopted_by";
+
+        // Create block list ArrayList
+        blockList = new HashSet<>();
+        adoptedByList = new HashMap<>();
 
         // If user is authenticated
         // Set user references
@@ -175,29 +187,62 @@ public class UserData extends Application {
     }
 
     /**
-     * Set current number of adopted blocks
-     * @param blockAdoptedBy total number of blocks adopted
-     */
-    public void setBlockAdoptedBy(int blockAdoptedBy) {
-        blockAdoptedByReference = mDatabase.child(blocksPath).child(blockName).child(blockAdoptedByNode);
-        this.blockAdoptedBy = blockAdoptedBy;
-        blockAdoptedByReference.setValue(blockAdoptedBy);
-    }
-
-    /**
      * Increase current number of adopted blocks by one
      */
-    public void incrementBlockAdoptedBy() {
-        blockAdoptedBy ++;
-        blockAdoptedByReference.setValue(blockAdoptedBy);
+    public void incrementBlockAdoptedBy(String block) {
+        blockAdoptedByReference = mDatabase.child(blocksPath).child(block).child(blockAdoptedByNode);
+        int adoptedBy = adoptedByList.get(block);
+        blockAdoptedByReference.setValue(++adoptedBy);
+        adoptedByList.remove(block);
+        adoptedByList.put(block, adoptedBy);
     }
 
     /**
      * Decrease current number of adopted blocks by one
      */
-    public void decrementBlockAdoptedBy() {
-        blockAdoptedBy --;
-        blockAdoptedByReference.setValue(blockAdoptedBy);
+    public void decrementBlockAdoptedBy(String block) {
+        blockAdoptedByReference = mDatabase.child(blocksPath).child(block).child(blockAdoptedByNode);
+        int adoptedBy = adoptedByList.get(block);
+        if (adoptedBy != 0) {
+            blockAdoptedByReference.setValue(--adoptedBy);
+            adoptedByList.remove(block);
+            adoptedByList.put(block, adoptedBy);
+        }
+    }
+
+    /**
+     * Add all existing blocks to block list
+     * @param block block name
+     */
+    public void addBlockToList(String block) {
+        blockList.add(block);
+    }
+
+    /**
+     * Add all existing counters to block list
+     * @param blockName block name
+     * @param adoptedBy int counter
+     */
+    public void addAdoptedBy(String blockName, int adoptedBy) {
+        adoptedByList.put(blockName,adoptedBy);
+    }
+
+    /**
+     * Returns number of people adopting the select block
+     * @param blockName block name
+     * @return counter
+     */
+    public int getAdoptedByCounter(String blockName) {
+        return adoptedByList.get(blockName);
+    }
+
+    /**
+     * Returns true if a block already exists in the firebase
+     * @param block block name
+     * @return true if exists
+     */
+    public boolean isBlockInList(String block) {
+        return blockList.contains(block);
     }
 
     /**
@@ -270,14 +315,5 @@ public class UserData extends Application {
      */
     public DatabaseReference getOrganizationNameReference() {
         return organizationNameReference;
-    }
-
-    /**
-     * Return blockAdoptedByReference used in retrieving data from firebase
-     * @return DatabaseReference blockAdoptedByReference
-     */
-    public DatabaseReference getBlockAdoptedByReference() {
-        blockAdoptedByReference = mDatabase.child(blocksPath).child(blockName).child(blockAdoptedByNode);
-        return blockAdoptedByReference;
     }
 }

@@ -2,6 +2,7 @@ package com.example.gordiartur.adoptablock;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 public class BlockActivity extends AppCompatActivity {
 
@@ -32,6 +36,7 @@ public class BlockActivity extends AppCompatActivity {
         if (userData.getBlockName() != null && !userData.getBlockName().isEmpty()) {
             block_name_label.setText(userData.getBlockName());
         }
+
     }
 
     /**
@@ -39,7 +44,7 @@ public class BlockActivity extends AppCompatActivity {
      */
     private void updateUserNameLabel() {
         TextView user_email_label = findViewById(R.id.block_owner_name_text);
-        if (userData.getUserName() != null && !userData.getUserName().isEmpty()) {
+        if (userData.isAuthenticated()) {
             user_email_label.setText(userData.getUserName());
         }
     }
@@ -59,35 +64,8 @@ public class BlockActivity extends AppCompatActivity {
         retrieveBlockName();
         retrieveUserName();
         retrieveEmail();
-        retrieveOrganizationName();
-        //retrieveTotalAdoptedBlocks();  MOVED
+        retrieveBlocks();
     }
-
-//    private void retrieveBlockName2() {
-//
-//        DatabaseReference userDatabase;
-//        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        String uid = firebaseUser.getUid();
-//
-//
-//        userDatabase = mDatabase.child("users").child(uid).child("block").child("block_name");
-//
-//        ValueEventListener postListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                block_name = dataSnapshot.getValue(String.class);
-//                updateLabels();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Getting Post failed, log a message
-//                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-//            }
-//        };
-//        userDatabase.addListenerForSingleValueEvent(postListener);
-//    }
 
     /**
      * Retrieves block name from firebase to UserData
@@ -102,7 +80,6 @@ public class BlockActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userData.setBlockName(dataSnapshot.getValue(String.class));
-                retrieveTotalAdoptedBlocks();
                 updateLabels();
             }
 
@@ -166,74 +143,40 @@ public class BlockActivity extends AppCompatActivity {
     }
 
     /**
-     * Retrieves organization name from firebase to UserData
-     * Updates text labels
+     * Adds a list of all current blocks to userData
      */
-    private void retrieveOrganizationName() {
-        if (!userData.isAuthenticated()) {
-            return;
-        }
-
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userData.setOrganizationName(dataSnapshot.getValue(String.class));
-                updateLabels();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-            }
-        };
-        userData.getOrganizationNameReference().addListenerForSingleValueEvent(postListener);
-    }
-
-    /**
-     * Retrieves totalBlocksAdopted from firebase to UserData
-     * Updates text labels
-     */
-    private void retrieveTotalAdoptedBlocks() {
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userData.setBlockAdoptedBy(dataSnapshot.getValue(int.class));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-            }
-        };
-        try{
-            userData.getBlockAdoptedByReference().addListenerForSingleValueEvent(postListener);
-        }
-        catch(Exception e){
-            Log.d("GetTotalAdoptBlocks()", "Exception" + e);
-        }
+    private void retrieveBlocks() {
+        FirebaseDatabase.getInstance().getReference().child("blocks")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot blocks : dataSnapshot.getChildren()) {
+                            int i = 0;
+                            String blockName = "";
+                            for (DataSnapshot singleBlock : blocks.getChildren()) {
+                                if (i == 0) {
+                                    blockName = singleBlock.getValue(String.class);
+                                    userData.addBlockToList(blockName);
+                                    i++;
+                                } else {
+                                    int adoptedBy = singleBlock.getValue(Integer.class);
+                                    userData.addAdoptedBy(blockName, adoptedBy);
+                                }
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
     protected void onCreate(Bundle savedInstanceState) {
-        String[] queryCols = new String[]{"_id", "sampletext"};
-        String[] adapterCols = new String[]{"sampletext"};
-        int[] adapterRowViews = new int[]{android.R.id.text1};
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
 
-        /*
-         * Move this to sign in/up screen
-         * /////////////////////////////////////////////////
-         */
         userData = ((UserData)getApplicationContext());
         userData.setUserData();
-        /*
-         * up to here
-         * /////////////////////////////////////////////////
-         */
-
         retrieveValues();
         updateLabels();
 
