@@ -53,11 +53,14 @@ public class MapsActivity extends FragmentActivity
 
     private ArrayList<Polygon> polygonList = new ArrayList<>();
     private Polygon currentPolygon;
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        userData = ((UserData) getApplicationContext());
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigation);
@@ -102,7 +105,7 @@ public class MapsActivity extends FragmentActivity
                 for (int j = 0; j < coordinates.length(); j++) {
 
                     JSONArray second = coordinates.getJSONArray(j);
-                    ArrayList<LatLng> latLng = new ArrayList<LatLng>();
+                    ArrayList<LatLng> latLng = new ArrayList<>();
 
                     for (int k = 0; k < second.length(); k++) {
 
@@ -163,7 +166,6 @@ public class MapsActivity extends FragmentActivity
         Double area = Double.parseDouble(split[1]);
         int totalAdoptees;
 
-
         if (area < 50000) {
             totalAdoptees = 2;
         } else if (area < 100000) {
@@ -184,9 +186,10 @@ public class MapsActivity extends FragmentActivity
         if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
             polygon.setFillColor(COLOR_TRANSPARENT_RED);
             blockInfo.setVisibility(View.VISIBLE);
-            blockName.setText("Block: " + name);
-            numAdoptees.setText("Number of Adoptees: " + 0);  // SET TO GET NUMBER OF ADOPTEES FROM DB
-            spotsAvailable.setText("Spots Available: " + totalAdoptees); // SUBTRACT NUMBER OF ADOPTEES
+            String numAdopteeText = getString(R.string.adopted_by) + 0; // SET TO GET NUMBER OF ADOPTEES FROM DB
+            String spotsAvailableText = getString(R.string.spots_available) + totalAdoptees; // SUBTRACT NUMBER OF ADOPTEES
+            numAdoptees.setText(numAdopteeText);
+            spotsAvailable.setText(spotsAvailableText);
             blockInfo.bringToFront();
         } else {
             polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
@@ -198,8 +201,8 @@ public class MapsActivity extends FragmentActivity
         LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
         for (Polygon p : polygonList) {
-                p.setFillColor(COLOR_TRANSPARENT_GREEN);
-                blockInfo.setVisibility(View.INVISIBLE);
+            p.setFillColor(COLOR_TRANSPARENT_GREEN);
+            blockInfo.setVisibility(View.INVISIBLE);
 
         }
     }
@@ -208,26 +211,67 @@ public class MapsActivity extends FragmentActivity
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         String tag = (String) currentPolygon.getTag();
         String[] split = tag.split(" ");
-        String blockName = split[0];
+        final String blockName = split[0];
 
-        // CHECK IF USER ALREADY HAS A BLOCK
+        if (userData.isAuthenticated()) {
+            if (userData.getBlockName().equals("")) {
+                dialogBuilder.setTitle(getString(R.string.map_confirm));
 
-        dialogBuilder.setTitle("Confirm");
+                dialogBuilder
+                        .setMessage(getString(R.string.confirm_message))
+                        .setCancelable(false)
+                        .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                userData.setBlockName(blockName);
+                                userData.incrementBlockAdoptedBy();
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.confirm_no), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+            } else {
+                dialogBuilder.setTitle(getString(R.string.map_warning));
 
-        dialogBuilder
-            .setMessage("Are you sure you want to adopt this block?")
-            .setCancelable(false)
-            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // INCREMENT NUMBER OF ADOPTEES FOR BLOCK AND ASSIGN BLOCK TO USER
-                    dialog.cancel();
-                }
-            })
-            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
+                dialogBuilder
+                        .setMessage(getString(R.string.warning_message))
+                        .setCancelable(false)
+                        .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                userData.decrementBlockAdoptedBy();
+                                userData.setBlockName(blockName);
+                                userData.incrementBlockAdoptedBy();
+
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.confirm_no), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+            }
+        } else {
+            dialogBuilder.setTitle("");
+
+            dialogBuilder
+                    .setMessage(getString(R.string.signin_message))
+                    .setCancelable(true)
+                    .setPositiveButton(getString(R.string.signin_prompt), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intentLogin);
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.signin_cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+        }
 
         AlertDialog dialog = dialogBuilder.create();
 
