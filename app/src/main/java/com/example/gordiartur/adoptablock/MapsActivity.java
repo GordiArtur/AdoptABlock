@@ -105,7 +105,7 @@ public class MapsActivity extends FragmentActivity
                 for (int j = 0; j < coordinates.length(); j++) {
 
                     JSONArray second = coordinates.getJSONArray(j);
-                    ArrayList<LatLng> latLng = new ArrayList<LatLng>();
+                    ArrayList<LatLng> latLng = new ArrayList<>();
 
                     for (int k = 0; k < second.length(); k++) {
 
@@ -186,9 +186,10 @@ public class MapsActivity extends FragmentActivity
         if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
             polygon.setFillColor(COLOR_TRANSPARENT_RED);
             blockInfo.setVisibility(View.VISIBLE);
-            blockName.setText("Block: " + name);
-            numAdoptees.setText("Number of Adoptees: " + 0);  // SET TO GET NUMBER OF ADOPTEES FROM DB
-            spotsAvailable.setText("Spots Available: " + totalAdoptees); // SUBTRACT NUMBER OF ADOPTEES
+            String numAdopteeText = getString(R.string.adopted_by) + 0; // SET TO GET NUMBER OF ADOPTEES FROM DB
+            String spotsAvailableText = getString(R.string.spots_available) + totalAdoptees; // SUBTRACT NUMBER OF ADOPTEES
+            numAdoptees.setText(numAdopteeText);
+            spotsAvailable.setText(spotsAvailableText);
             blockInfo.bringToFront();
         } else {
             polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
@@ -213,31 +214,31 @@ public class MapsActivity extends FragmentActivity
         final String blockName = split[0];
 
         if (userData.isAuthenticated()) {
-            if (true && userData.getBlockName().equals("")) {
-                dialogBuilder.setTitle("Confirm");
+            if (userData.getBlockName().equals("")) {
+                dialogBuilder.setTitle(getString(R.string.map_confirm));
 
                 dialogBuilder
-                        .setMessage("Are you sure you want to adopt this block?")
+                        .setMessage(getString(R.string.confirm_message))
                         .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 userData.setBlockName(blockName);
                                 userData.incrementBlockAdoptedBy();
                                 dialog.cancel();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.confirm_no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
             } else {
-                dialogBuilder.setTitle("Warning");
+                dialogBuilder.setTitle(getString(R.string.map_warning));
 
                 dialogBuilder
-                        .setMessage("You may only be signed up for one block at a time. Would you like to sign up for this block instead?")
+                        .setMessage(getString(R.string.warning_message))
                         .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 userData.decrementBlockAdoptedBy();
                                 userData.setBlockName(blockName);
@@ -246,7 +247,7 @@ public class MapsActivity extends FragmentActivity
                                 dialog.cancel();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.confirm_no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
@@ -256,20 +257,20 @@ public class MapsActivity extends FragmentActivity
             dialogBuilder.setTitle("");
 
             dialogBuilder
-                    .setMessage("Sign in/register to adopt this block!")
+                    .setMessage(getString(R.string.signin_message))
                     .setCancelable(true)
-                    .setPositiveButton("Sign In/Register", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.signin_prompt), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intentLogin);
                             dialog.cancel();
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.signin_cancel), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
-                    });;
+                    });
         }
 
         AlertDialog dialog = dialogBuilder.create();
