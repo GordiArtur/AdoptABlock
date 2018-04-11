@@ -53,11 +53,14 @@ public class MapsActivity extends FragmentActivity
 
     private ArrayList<Polygon> polygonList = new ArrayList<>();
     private Polygon currentPolygon;
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        userData = ((UserData) getApplicationContext());
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigation);
@@ -163,7 +166,6 @@ public class MapsActivity extends FragmentActivity
         Double area = Double.parseDouble(split[1]);
         int totalAdoptees;
 
-
         if (area < 50000) {
             totalAdoptees = 2;
         } else if (area < 100000) {
@@ -198,8 +200,8 @@ public class MapsActivity extends FragmentActivity
         LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
         for (Polygon p : polygonList) {
-                p.setFillColor(COLOR_TRANSPARENT_GREEN);
-                blockInfo.setVisibility(View.INVISIBLE);
+            p.setFillColor(COLOR_TRANSPARENT_GREEN);
+            blockInfo.setVisibility(View.INVISIBLE);
 
         }
     }
@@ -208,26 +210,67 @@ public class MapsActivity extends FragmentActivity
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         String tag = (String) currentPolygon.getTag();
         String[] split = tag.split(" ");
-        String blockName = split[0];
+        final String blockName = split[0];
 
-        // CHECK IF USER ALREADY HAS A BLOCK
+        if (userData.isAuthenticated()) {
+            if (true && userData.getBlockName().equals("")) {
+                dialogBuilder.setTitle("Confirm");
 
-        dialogBuilder.setTitle("Confirm");
+                dialogBuilder
+                        .setMessage("Are you sure you want to adopt this block?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                userData.setBlockName(blockName);
+                                userData.incrementBlockAdoptedBy();
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+            } else {
+                dialogBuilder.setTitle("Warning");
 
-        dialogBuilder
-            .setMessage("Are you sure you want to adopt this block?")
-            .setCancelable(false)
-            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // INCREMENT NUMBER OF ADOPTEES FOR BLOCK AND ASSIGN BLOCK TO USER
-                    dialog.cancel();
-                }
-            })
-            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
+                dialogBuilder
+                        .setMessage("You may only be signed up for one block at a time. Would you like to sign up for this block instead?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                userData.decrementBlockAdoptedBy();
+                                userData.setBlockName(blockName);
+                                userData.incrementBlockAdoptedBy();
+
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+            }
+        } else {
+            dialogBuilder.setTitle("");
+
+            dialogBuilder
+                    .setMessage("Sign in/register to adopt this block!")
+                    .setCancelable(true)
+                    .setPositiveButton("Sign In/Register", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intentLogin);
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });;
+        }
 
         AlertDialog dialog = dialogBuilder.create();
 
