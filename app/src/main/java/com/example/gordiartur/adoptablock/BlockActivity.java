@@ -2,6 +2,7 @@ package com.example.gordiartur.adoptablock;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 public class BlockActivity extends AppCompatActivity {
 
@@ -32,6 +36,7 @@ public class BlockActivity extends AppCompatActivity {
         if (userData.getBlockName() != null && !userData.getBlockName().isEmpty()) {
             block_name_label.setText(userData.getBlockName());
         }
+
     }
 
     /**
@@ -59,6 +64,7 @@ public class BlockActivity extends AppCompatActivity {
         retrieveBlockName();
         retrieveUserName();
         retrieveEmail();
+        retrieveBlocks();
     }
 
     /**
@@ -134,6 +140,35 @@ public class BlockActivity extends AppCompatActivity {
             }
         };
         userData.getEmailReference().addListenerForSingleValueEvent(postListener);
+    }
+
+    /**
+     * Adds a list of all current blocks to userData
+     */
+    private void retrieveBlocks() {
+        FirebaseDatabase.getInstance().getReference().child("blocks")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot blocks : dataSnapshot.getChildren()) {
+                            int i = 0;
+                            String blockName = "";
+                            for (DataSnapshot singleBlock : blocks.getChildren()) {
+                                if (i == 0) {
+                                    blockName = singleBlock.getValue(String.class);
+                                    userData.addBlockToList(blockName);
+                                    i++;
+                                } else {
+                                    int adoptedBy = singleBlock.getValue(Integer.class);
+                                    userData.addAdoptedBy(blockName, adoptedBy);
+                                }
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
     protected void onCreate(Bundle savedInstanceState) {
