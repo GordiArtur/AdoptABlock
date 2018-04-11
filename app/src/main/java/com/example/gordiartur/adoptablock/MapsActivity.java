@@ -156,7 +156,6 @@ public class MapsActivity extends FragmentActivity
         currentPolygon = polygon;
         LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
-        TextView blockName = findViewById(R.id.blockName);
         TextView numAdoptees = findViewById(R.id.numAdoptees);
         TextView spotsAvailable = findViewById(R.id.spotsAvailable);
 
@@ -223,7 +222,7 @@ public class MapsActivity extends FragmentActivity
                         .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 userData.setBlockName(blockName);
-                                userData.incrementBlockAdoptedBy();
+                                userData.incrementBlockAdoptedBy(blockName);
                                 dialog.cancel();
                             }
                         })
@@ -240,9 +239,9 @@ public class MapsActivity extends FragmentActivity
                         .setCancelable(false)
                         .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                userData.decrementBlockAdoptedBy();
+                                userData.decrementBlockAdoptedBy(userData.getBlockName());
                                 userData.setBlockName(blockName);
-                                userData.incrementBlockAdoptedBy();
+                                userData.incrementBlockAdoptedBy(blockName);
 
                                 dialog.cancel();
                             }
