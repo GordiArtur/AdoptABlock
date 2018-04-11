@@ -69,6 +69,7 @@ public class UserData extends Application {
      * Firebase block database nodes
      */
     private String blockAdoptedByNode; // Firebase path to "blockAdoptedBy" node
+    private String blocksPathName; // Firebase path to "block_name" node in "blocks" tree
 
     /**
      * Firebase full user path references
@@ -82,6 +83,7 @@ public class UserData extends Application {
      * Firebase full block path references
      */
     private DatabaseReference blockAdoptedByReference;
+    private DatabaseReference blocksBlockNameReference;
 
     /**
      * User values
@@ -118,6 +120,7 @@ public class UserData extends Application {
 
         // Set blocks references
         blocksPath = "blocks";
+        blocksPathName = "block_name";
         blockAdoptedByNode = "total_adopted_by";
 
         // Create block list ArrayList
@@ -225,6 +228,20 @@ public class UserData extends Application {
      */
     public void addAdoptedBy(String blockName, int adoptedBy) {
         adoptedByList.put(blockName,adoptedBy);
+    }
+
+    /**
+     * Create a new block with 1 user
+     * @param block block name
+     */
+    public void addNewBlock(String block) {
+        if (!blockList.contains(block)) {
+            blocksBlockNameReference = mDatabase.child(blocksPath).child(block).child(blocksPathName);
+            blocksBlockNameReference.setValue(block);
+            blockList.add(block);
+            adoptedByList.put(block, 0);
+            incrementBlockAdoptedBy(block);
+        }
     }
 
     /**

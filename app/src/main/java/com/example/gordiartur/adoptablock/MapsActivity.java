@@ -22,6 +22,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -222,7 +224,11 @@ public class MapsActivity extends FragmentActivity
                         .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 userData.setBlockName(blockName);
-                                userData.incrementBlockAdoptedBy(blockName);
+                                if (!userData.isBlockInList(blockName)) {
+                                    userData.addNewBlock(blockName);
+                                } else {
+                                    userData.incrementBlockAdoptedBy(blockName);
+                                }
                                 dialog.cancel();
                             }
                         })
@@ -241,7 +247,11 @@ public class MapsActivity extends FragmentActivity
                             public void onClick(DialogInterface dialog, int id) {
                                 userData.decrementBlockAdoptedBy(userData.getBlockName());
                                 userData.setBlockName(blockName);
-                                userData.incrementBlockAdoptedBy(blockName);
+                                if (!userData.isBlockInList(blockName)) {
+                                    userData.addNewBlock(blockName);
+                                } else {
+                                    userData.incrementBlockAdoptedBy(blockName);
+                                }
 
                                 dialog.cancel();
                             }
@@ -275,6 +285,10 @@ public class MapsActivity extends FragmentActivity
         AlertDialog dialog = dialogBuilder.create();
 
         dialog.show();
+    }
+
+    private void firebaseCreateBlockFields(String block) {
+        userData.addNewBlock(block);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
