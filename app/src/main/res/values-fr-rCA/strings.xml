@@ -70,6 +70,8 @@
     <string name="signin_message">Signez-vous/Registrez-vous pour adopter ce bloc!</string>
     <string name="signin_prompt">Signer/Registrer</string>
     <string name="signin_cancel">Canceller</string>
+    <string name="cant_adopt">Oups! Le bloc est plein. Choisissez un bloc different.</string>
+    <string name="cant_adopt_ok">OK</string>
 
     <!-- Strings related to Settings -->
 

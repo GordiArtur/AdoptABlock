@@ -98,6 +98,8 @@ beautiful as it should!</string>
     <string name="signin_message">Sign In/Register to adopt this block!</string>
     <string name="signin_prompt">Sign In/Register</string>
     <string name="signin_cancel">Cancel</string>
+    <string name="cant_adopt">Oops! This block is full. Please select another block to adopt.</string>
+    <string name="cant_adopt_ok">OK</string>
 
     <!-- Strings related to Settings -->
 
