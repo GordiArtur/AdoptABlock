@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +42,8 @@ public class MapsActivity extends FragmentActivity
         GoogleMap.OnMapClickListener {
 
     private static final int COLOR_TRANSPARENT_GREEN = 0x55388E3C;
+    private static final int COLOR_TRANSPARENT_PURPLE = 0x55663399;
+    private static final int COLOR_TRANSPARENT_ORANGE = 0x55FF8106;
     private static final int COLOR_TRANSPARENT_RED = 0x55FF0000;
 
     private static final int POLYGON_STROKE_WIDTH_PX = 3;
@@ -53,16 +58,20 @@ public class MapsActivity extends FragmentActivity
 
     private ArrayList<Polygon> polygonList = new ArrayList<>();
     private Polygon currentPolygon;
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        userData = ((UserData) getApplicationContext());
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigation);
         navigation.setSelectedItemId(R.id.navigation_map);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.bringToFront();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -102,7 +111,7 @@ public class MapsActivity extends FragmentActivity
                 for (int j = 0; j < coordinates.length(); j++) {
 
                     JSONArray second = coordinates.getJSONArray(j);
-                    ArrayList<LatLng> latLng = new ArrayList<LatLng>();
+                    ArrayList<LatLng> latLng = new ArrayList<>();
 
                     for (int k = 0; k < second.length(); k++) {
 
@@ -141,7 +150,38 @@ public class MapsActivity extends FragmentActivity
     private void stylePolygon(Polygon polygon) {
         polygon.setStrokePattern(PATTERN_POLYGON_ALPHA);
         polygon.setStrokeWidth(POLYGON_STROKE_WIDTH_PX);
-        polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
+
+        String tag = (String) polygon.getTag();
+        String[] split = tag.split(" ");
+        String name = split[0];
+        Double area = Double.parseDouble(split[1]);
+
+        int totalAdoptees = getTotalAdoptees(area);
+        int adoptedBy = 0;
+
+        if (userData.isBlockInList(name)) {
+            adoptedBy = userData.getAdoptedByCounter(name);
+        }
+
+        if (adoptedBy == 0) {
+            polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
+        } else if (adoptedBy < totalAdoptees) {
+            polygon.setFillColor(COLOR_TRANSPARENT_ORANGE);
+        } else {
+            polygon.setFillColor(COLOR_TRANSPARENT_RED);
+        }
+    }
+
+    private int getTotalAdoptees(double area) {
+        if (area < 50000) {
+            return  2;
+        } else if (area < 100000) {
+            return 4;
+        } else if (area < 200000) {
+            return 6;
+        } else {
+            return 8;
+        }
     }
 
     /**
@@ -153,43 +193,42 @@ public class MapsActivity extends FragmentActivity
         currentPolygon = polygon;
         LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
-        TextView blockName = findViewById(R.id.blockName);
         TextView numAdoptees = findViewById(R.id.numAdoptees);
         TextView spotsAvailable = findViewById(R.id.spotsAvailable);
 
         String tag = (String) polygon.getTag();
         String[] split = tag.split(" ");
         String name = split[0];
+        System.out.println(name);
         Double area = Double.parseDouble(split[1]);
-        int totalAdoptees;
-
-
-        if (area < 50000) {
-            totalAdoptees = 2;
-        } else if (area < 100000) {
-            totalAdoptees = 4;
-        } else if (area < 200000) {
-            totalAdoptees = 6;
-        } else {
-            totalAdoptees = 8;
-        }
+        int totalAdoptees = getTotalAdoptees(area);
 
         for (Polygon p : polygonList) {
             if (!p.equals(polygon)) {
-                p.setFillColor(COLOR_TRANSPARENT_GREEN);
+                stylePolygon(p);
                 blockInfo.setVisibility(View.INVISIBLE);
             }
         }
 
-        if (polygon.getFillColor() == COLOR_TRANSPARENT_GREEN) {
-            polygon.setFillColor(COLOR_TRANSPARENT_RED);
+        if (polygon.getFillColor() != COLOR_TRANSPARENT_PURPLE) {
+            polygon.setFillColor(COLOR_TRANSPARENT_PURPLE);
             blockInfo.setVisibility(View.VISIBLE);
-            blockName.setText("Block: " + name);
-            numAdoptees.setText("Number of Adoptees: " + 0);  // SET TO GET NUMBER OF ADOPTEES FROM DB
-            spotsAvailable.setText("Spots Available: " + totalAdoptees); // SUBTRACT NUMBER OF ADOPTEES
+
+            int adoptedBy = 0;
+
+            if (userData.isBlockInList(name)) {
+                adoptedBy = userData.getAdoptedByCounter(name);
+            }
+
+            int spots = totalAdoptees - adoptedBy;
+
+            String numAdopteeText = getString(R.string.adopted_by) + " " + adoptedBy;
+            String spotsAvailableText = getString(R.string.spots_available) + " " + spots; // SUBTRACT NUMBER OF ADOPTEES
+            numAdoptees.setText(numAdopteeText);
+            spotsAvailable.setText(spotsAvailableText);
             blockInfo.bringToFront();
         } else {
-            polygon.setFillColor(COLOR_TRANSPARENT_GREEN);
+            stylePolygon(polygon);
         }
     }
 
@@ -198,9 +237,8 @@ public class MapsActivity extends FragmentActivity
         LinearLayout blockInfo = findViewById(R.id.blockInfo);
 
         for (Polygon p : polygonList) {
-                p.setFillColor(COLOR_TRANSPARENT_GREEN);
-                blockInfo.setVisibility(View.INVISIBLE);
-
+            stylePolygon(p);
+            blockInfo.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -208,30 +246,105 @@ public class MapsActivity extends FragmentActivity
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         String tag = (String) currentPolygon.getTag();
         String[] split = tag.split(" ");
-        String blockName = split[0];
+        final String blockName = split[0];
+        Double area = Double.parseDouble(split[1]);
 
-        // CHECK IF USER ALREADY HAS A BLOCK
+        if (userData.isAuthenticated()) {
 
-        dialogBuilder.setTitle("Confirm");
+            int totalAdoptees = getTotalAdoptees(area);
+            int adoptedBy = 0;
 
-        dialogBuilder
-            .setMessage("Are you sure you want to adopt this block?")
-            .setCancelable(false)
-            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // INCREMENT NUMBER OF ADOPTEES FOR BLOCK AND ASSIGN BLOCK TO USER
-                    dialog.cancel();
-                }
-            })
-            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
+            if (userData.isBlockInList(blockName)) {
+                adoptedBy = userData.getAdoptedByCounter(blockName);
+            }
+            int spots = totalAdoptees - adoptedBy;
+
+            if (spots == 0) {
+                dialogBuilder.setTitle("");
+
+                dialogBuilder
+                        .setMessage(getString(R.string.cant_adopt))
+                        .setCancelable(true)
+                        .setPositiveButton(getString(R.string.cant_adopt_ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+            } else if (userData.getBlockName().equals("")) {
+                dialogBuilder.setTitle(getString(R.string.map_confirm));
+
+                dialogBuilder
+                        .setMessage(getString(R.string.confirm_message))
+                        .setCancelable(false)
+                        .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                userData.setBlockName(blockName);
+                                if (!userData.isBlockInList(blockName)) {
+                                    userData.addNewBlock(blockName);
+                                } else {
+                                    userData.incrementBlockAdoptedBy(blockName);
+                                }
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.confirm_no), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+            } else {
+                dialogBuilder.setTitle(getString(R.string.map_warning));
+
+                dialogBuilder
+                        .setMessage(getString(R.string.warning_message))
+                        .setCancelable(false)
+                        .setPositiveButton(getString(R.string.confirm_yes), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                userData.decrementBlockAdoptedBy(userData.getBlockName());
+                                userData.setBlockName(blockName);
+                                if (!userData.isBlockInList(blockName)) {
+                                    userData.addNewBlock(blockName);
+                                } else {
+                                    userData.incrementBlockAdoptedBy(blockName);
+                                }
+
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.confirm_no), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+            }
+        } else {
+            dialogBuilder.setTitle("");
+
+            dialogBuilder
+                    .setMessage(getString(R.string.signin_message))
+                    .setCancelable(true)
+                    .setPositiveButton(getString(R.string.signin_prompt), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intentLogin);
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.signin_cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+        }
 
         AlertDialog dialog = dialogBuilder.create();
 
         dialog.show();
+    }
+
+    private void firebaseCreateBlockFields(String block) {
+        userData.addNewBlock(block);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

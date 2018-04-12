@@ -15,13 +15,6 @@
         android:visibility="invisible"
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent" >
-
-        <TextView
-            android:id="@+id/blockName"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="25sp"/>
-
         <TextView
             android:id="@+id/numAdoptees"
             android:layout_width="wrap_content"
@@ -37,13 +30,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adopt This Block!"
+            android:text="@string/adopt_this_block"
             android:onClick="onAdoptClick"/>
 
     </LinearLayout>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
