@@ -38,7 +38,7 @@
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:text="@string/title_about"
+            android:text="@string/title_about_page"
             android:paddingTop="30dp"
             android:paddingBottom="20dp"
             android:onClick="goToAboutActivity"

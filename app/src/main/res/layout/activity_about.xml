@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pattullo_bridge"
+    android:background="@drawable/fraser_river_plaza"
     tools:context="com.example.gordiartur.adoptablock.AboutActivity"
     tools:layout_editor_absoluteY="25dp">
 
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@string/title_about"
+                android:text="@string/title_about_page"
                 android:textAlignment="center"
                 android:textColor="@color/newWestDarkBlue"
                 android:textSize="30sp" />
