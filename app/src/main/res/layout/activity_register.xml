@@ -90,7 +90,7 @@
 
             <Button
                 android:id="@+id/registrationReturnButton"
-                android:layout_width="160dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
@@ -100,7 +100,7 @@
 
             <Button
                 android:id="@+id/registrationSubmitButton"
-                android:layout_width="160dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
